@@ -24,7 +24,7 @@ public abstract class SpeedController implements Mover {
         public final float distAccelForward;   //Длинна пути при разгоне вперёд
         public final float distAccelBack;      //Длинна пути при разгоне назад
 
-        private static float dist(float max, float accel) {
+        private float dist(float max, float accel) {
             float dist = 0;
             float speed = 0;
             while (speed < max) {
@@ -33,7 +33,8 @@ public abstract class SpeedController implements Mover {
             }
             return dist;
         }
-        private static float distToBrake(float speed, float accel) {
+
+        private float distToBrake(float speed, float accel) {
             float dist = 0;
             while (speed > 0) {
                 speed -= dt.scalar(accel);

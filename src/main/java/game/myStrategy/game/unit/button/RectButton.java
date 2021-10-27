@@ -1,6 +1,6 @@
 package game.myStrategy.game.unit.button;
 
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.listener.Listener;
 
@@ -53,13 +53,13 @@ public class RectButton extends Button {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         if (visible) {
             Color color = Color.GRAY;
             switch (state) {
-                case ACTIVE:  color = new Color(0xFF000F); break;
-                case FOCUSED: color = new Color(0xFF544A); break;
-                case PRESSED: color = new Color(0xB4FF83); break;
+                case ACTIVE:  color = new Color(0xA6FF000F, true); break;
+                case FOCUSED: color = new Color(0xB3FF544A, true); break;
+                case PRESSED: color = new Color(0xC0B4FF83, true); break;
             }
             drawer.fillRect(pos, size, color, Color.BLACK, null, 2);
         }

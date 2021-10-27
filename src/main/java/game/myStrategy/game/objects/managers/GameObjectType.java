@@ -1,6 +1,6 @@
 package game.myStrategy.game.objects.managers;
 
-public enum GameObjectTypes {
+public enum GameObjectType {
     DECAL(0),
     ROAD(1),
     RAIL_WAY(2),
@@ -26,5 +26,5 @@ public enum GameObjectTypes {
     //=======================================//
 
     public final byte type;
-    GameObjectTypes(int type) { this.type = (byte) type; }
+    GameObjectType(int type) { this.type = (byte) type; }
 }

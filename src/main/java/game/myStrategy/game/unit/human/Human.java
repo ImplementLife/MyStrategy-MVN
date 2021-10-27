@@ -1,11 +1,10 @@
 package game.myStrategy.game.unit.human;
 
-import game.myStrategy.game.diplomacy.Player;
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.game.unit.fire.FireManagerImpl;
 import game.myStrategy.game.update.move.Mover;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.Control;
@@ -13,7 +12,7 @@ import game.myStrategy.ui.game.gamePanel.Control;
 import java.awt.*;
 
 public class Human extends Unit {
-    private static final GameObjectTypes TYPE = GameObjectTypes.HUMAN;
+    private static final GameObjectType TYPE = GameObjectType.HUMAN;
 
     private final Vec2D posNow;
     private final Angle angle;
@@ -88,7 +87,7 @@ public class Human extends Unit {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         angle.setValue(angle.getValue() + 0.05f);
         Color color = Color.GREEN;
         if (getPlayer().isEnemy()) color = Color.RED;
@@ -105,12 +104,12 @@ public class Human extends Unit {
         //mover.games.myStrategy.lib.draw();
     }
 
-    private void drawAmmoCount(Draw drawer) {
+    private void drawAmmoCount(Drawer drawer) {
         int[] i = fireManager.getAmmoCount();
         drawer.drawString(posNow.clone().add(6, 6), i[0] + "/" + i[1], 16, Color.YELLOW);
     }
 
-    private void drawHealth(Draw drawer) {
+    private void drawHealth(Drawer drawer) {
         Vec2D vecHealth = posNow.clone().sub(25, 20);
         drawer.drawLine(vecHealth, vecHealth.clone().addX(50), Color.GRAY, 2);
         drawer.drawLine(vecHealth, vecHealth.clone().addX(health/2), Color.YELLOW, 2);

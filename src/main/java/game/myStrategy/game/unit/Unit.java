@@ -2,7 +2,7 @@ package game.myStrategy.game.unit;
 
 import game.myStrategy.game.diplomacy.Player;
 import game.myStrategy.game.objects.GameObject;
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.fire.FireManager;
 import game.myStrategy.lib.math.Vec2D;
 
@@ -17,15 +17,15 @@ public abstract class Unit extends GameObject {
     protected FireManager fireManager;
 
     //================================//
-    public Unit(GameObjectTypes type, FireManager fireManager, int player) {
+    public Unit(GameObjectType type, FireManager fireManager, int player) {
         this(type, fireManager);
         this.player.setPlayer(player);
     }
-    public Unit(GameObjectTypes type, FireManager fireManager) {
+    public Unit(GameObjectType type, FireManager fireManager) {
         this(type);
         this.fireManager = fireManager;
     }
-    public Unit(GameObjectTypes type) {
+    public Unit(GameObjectType type) {
         super(type);
         units.add(this);
     }

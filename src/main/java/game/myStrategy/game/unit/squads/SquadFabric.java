@@ -12,10 +12,11 @@ public final class SquadFabric {
         for (int i = 0; i < count; i++) {
             Tank tank = new Tank(Vec2D.newRandomVec(pos, radius), 0);
             tank.setPlayer(player);
+            tank.enableUpdateDraw();
             squad.putMembers(tank);
-
         }
         squad.setPlayer(player);
+        squad.enableUpdate();
 
         return squad;
     }
@@ -24,9 +25,11 @@ public final class SquadFabric {
         for (int i = 0; i < count; i++) {
             Human human = new Human(Vec2D.newRandomVec(pos, radius));
             human.setPlayer(player);
+            human.enableUpdateDraw();
             squad.putMembers(human);
         }
         squad.setPlayer(player);
+        squad.enableUpdate();
 
         return squad;
     }

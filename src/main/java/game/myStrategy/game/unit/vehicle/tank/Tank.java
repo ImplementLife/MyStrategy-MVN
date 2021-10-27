@@ -1,11 +1,11 @@
 package game.myStrategy.game.unit.vehicle.tank;
 
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.game.unit.vehicle.DBT;
 import game.myStrategy.game.unit.vehicle.Element;
 import game.myStrategy.game.update.move.Mover;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class Tank extends Unit {
     //region Static
 
-    private static final GameObjectTypes TYPE = GameObjectTypes.TANK;
+    private static final GameObjectType TYPE = GameObjectType.TANK;
 
     private static Map<String, Image> images;
     static {
@@ -121,7 +121,7 @@ public class Tank extends Unit {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         body.draw(drawer);
         turret.draw(drawer);
 //        mover.games.myStrategy.lib.draw();
