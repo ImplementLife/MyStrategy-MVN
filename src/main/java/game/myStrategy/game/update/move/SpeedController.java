@@ -5,7 +5,7 @@ import game.myStrategy.lib.Data;
 import java.util.HashMap;
 import java.util.Objects;
 
-import static game.myStrategy.game.update.Updater.dt;
+import static game.myStrategy.game.update.UpdateService.dt;
 
 public abstract class SpeedController implements Mover {
     //==========     Static     =============//

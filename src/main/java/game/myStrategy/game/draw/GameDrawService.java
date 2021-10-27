@@ -3,8 +3,7 @@ package game.myStrategy.game.draw;
 import game.myStrategy.game.draw.camera.Camera;
 import game.myStrategy.game.draw.drawers.DrawerJPanel;
 import game.myStrategy.game.draw.drawers.DrawerMap;
-import game.myStrategy.game.objects.managers.DrawService;
-import game.myStrategy.game.update.Updater;
+import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.draw.drawer.DrawerImpl;
 import game.myStrategy.lib.draw.drawer.GameDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
@@ -18,6 +17,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
+import static game.myStrategy.game.context.Context.context;
 import static game.myStrategy.lib.myFormatString.MyFormatString.date;
 
 public final class GameDrawService {
@@ -92,12 +92,13 @@ public final class GameDrawService {
         size = new Vec2D(panel.getSize());
         setSettings();
         d(panel);
+        context().setDrawService(new DrawService());
 
         {
             Timer timer = new Timer(500);
             threadManager = ThreadManager.get();
             threadManager.drawMap.setExe(() -> drawerMap.draw());
-            threadManager.drawObj.setExe(() -> DrawService.get().iterate(painterObj));
+            threadManager.drawObj.setExe(() -> context().getDrawService().iterate(painterObj));
             threadManager.drawFinal.setExe(() -> {
                 finalDrawerImpl.fillRect(new Vec2D(), size, Color.GRAY, new Angle(0));
                 finalDrawerImpl.drawImage(new Vec2D(), painterMap.getImage());
@@ -110,7 +111,7 @@ public final class GameDrawService {
                     data = new String[] {
                             "UPS thread Map = " + threadManager.drawMap.getEPS(),
                             "UPS thread Obj = " + threadManager.drawObj.getEPS(),
-                            "UPS thread Update = " + Updater.get().getEPS(),
+                            "UPS thread Update = " + UpdateService.get().getEPS(),
                             "",
                             "camera.scale = " + camera.getCurrentScale(),
                             "camera.firstPos = " + camera.getFirstPos(),

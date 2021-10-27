@@ -13,7 +13,7 @@ public final class Boot {
     }
 
     private static void firstInitContext() {
-        Context context = Context.get();
+        Context context = Context.context();
         context.setIdService(new IdService());
         context.setDiplomacyService(new DiplomacyService());
 

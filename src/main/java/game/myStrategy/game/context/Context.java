@@ -10,6 +10,7 @@ import game.myStrategy.game.net.NetService;
 import game.myStrategy.game.objects.IdService;
 import game.myStrategy.game.unit.UnitFactory;
 import game.myStrategy.game.update.UpdateService;
+import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.UIService;
 import game.myStrategy.ui.game.CursorService;
 import game.myStrategy.ui.game.MouseService;
@@ -22,7 +23,7 @@ public class Context {
     //region Singleton block
 
     private static Context instance;
-    public static Context get() {
+    public static Context context() {
         if (instance == null) instance = new Context();
         return instance;
     }
@@ -48,10 +49,20 @@ public class Context {
     private DiplomacyService  diplomacyService;
 
     private UnitFactory       unitFactory;
+    private DT                dt;
 
     //endregion
 
     //region Setters
+
+    public void setDt(DT dt) {
+        this.dt = dt;
+    }
+
+    public void setUpdateService(UpdateService updateService) {
+        this.updateService = updateService;
+        this.updateService.setContext(this);
+    }
 
     public void setDiplomacyService(DiplomacyService diplomacyService) {
         this.diplomacyService = diplomacyService;
@@ -101,6 +112,10 @@ public class Context {
     //endregion
 
     //region Getters
+
+    public DT getDt() {
+        return dt;
+    }
 
     public DiplomacyService getDiplomacyService() {
         return diplomacyService;

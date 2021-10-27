@@ -2,7 +2,7 @@ package game.myStrategy.game.unit.vehicle;
 
 import game.myStrategy.lib.math.Angle;
 
-import static game.myStrategy.game.update.Updater.dt;
+import static game.myStrategy.game.update.UpdateService.dt;
 
 public class Rotate {
     //==========     Static     =============//

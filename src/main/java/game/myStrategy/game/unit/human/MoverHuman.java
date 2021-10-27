@@ -6,7 +6,7 @@ import game.myStrategy.lib.math.Vec2D;
 
 import java.awt.*;
 
-import static game.myStrategy.game.update.Updater.dt;
+import static game.myStrategy.game.update.UpdateService.dt;
 
 public class MoverHuman extends SpeedController {
     private final Vec2D posNow;

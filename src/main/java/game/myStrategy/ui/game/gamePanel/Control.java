@@ -2,7 +2,7 @@ package game.myStrategy.ui.game.gamePanel;
 
 import game.myStrategy.game.draw.GameDrawService;
 import game.myStrategy.game.unit.squads.SquadFabric;
-import game.myStrategy.game.update.Updater;
+import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.draw.FX.Animation.Animation;
 import game.myStrategy.ui.game.gamePanel.listener.Listener;
 import game.myStrategy.ui.game.gamePanel.events.Event;
@@ -62,7 +62,7 @@ public class Control {
             SquadFabric.createTankSquad(Listener.getGlobalMousePos().clone().addX(400), 2, 200, 1);
         }
 
-        if (e.isReleased(keys.get("pause"))) Updater.get().pause();
+        if (e.isReleased(keys.get("pause"))) UpdateService.get().pause();
         if (e.isReleased(keys.get("screenshot"))) GameDrawService.screenshot = true;
 
         if (e.isReleased(keys.get("v"))) {

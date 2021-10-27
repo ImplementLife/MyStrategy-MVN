@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-import static game.myStrategy.game.update.Updater.dt;
+import static game.myStrategy.game.update.UpdateService.dt;
 
 public class Bullet extends GameObject {
     //==========     Static     =============//

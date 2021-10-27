@@ -2,7 +2,7 @@ package game.myStrategy.ui.menu;
 
 import game.myStrategy.ui.game.gamePanel.Control;
 import game.myStrategy.game.draw.GameDrawService;
-import game.myStrategy.game.update.Updater;
+import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.ui.Frame;
 import game.myStrategy.ui.game.CursorService;
 import game.myStrategy.game.GameService;
@@ -14,6 +14,8 @@ import game.myStrategy.ui.menu.mainMenu.MainMenu;
 import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
+
+import static game.myStrategy.game.context.Context.context;
 
 public class FrameController {
     //region Singleton
@@ -53,11 +55,11 @@ public class FrameController {
 
         GameService gameService = GameService.get();
         gameService.createMap();
-
+        context().setUpdateService(UpdateService.get());
         GameDrawService.start(gamePanel);
         gamePanel.setFocus();
         gameService.addUnit();
-        Updater.start();
+        context().getUpdateService().start();
         Control.get().enabled();
     }
 

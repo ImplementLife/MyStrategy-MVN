@@ -1,28 +1,28 @@
 package game.myStrategy.game.objects;
 
 import game.myStrategy.game.context.Context;
-import game.myStrategy.game.objects.managers.DrawService;
 import game.myStrategy.game.objects.managers.GameObjectType;
-import game.myStrategy.game.objects.managers.UpdateService;
+import game.myStrategy.lib.CallManager.Call;
 import game.myStrategy.lib.draw.drawer.Drawer;
-import game.myStrategy.lib.draw.drawer.drawCall.DrawCall;
 
 public class GameObject implements Comparable<Object> {
     //region Fields
     private final Id id;
     private final GameObjectType type;
     private boolean deleted;
-    private DrawService.Draw draw;
-    private UpdateService.Update update;
     protected Context context;
-    protected DrawCall drawCall;
+    private Call<GameObject> update;
+    private Call<GameObject> draw;
     //endregion
 
     //region Constructor
     public GameObject(GameObjectType type) {
-        this.context = Context.get();
+        this.context = Context.context();
         this.type = type;
         this.id = this.context.getIdService().getId(type);
+
+        this.update = this.context.getUpdateService().get(this);
+        this.draw = this.context.getDrawService().get(this);
     }
     //endregion
 
@@ -31,8 +31,8 @@ public class GameObject implements Comparable<Object> {
     }
 
     public void delete() {
-        if (draw != null) draw.remove();
-        if (update != null) update.remove();
+        draw.remove();
+        update.remove();
         deleted = true;
     }
 
@@ -41,44 +41,27 @@ public class GameObject implements Comparable<Object> {
     }
 
     //region Enable/Disable
-    public DrawService.Draw getDraw() {
-        if (draw == null) draw = new DrawService.Draw(this, (int) type.type);
-        return draw;
-    }
-
-    public UpdateService.Update getUpdate() {
-        if (update == null) update = new UpdateService.Update(this);
-        return update;
-    }
-
     public final void enableUpdateDraw() {
         enableUpdate();
         enableDraw();
     }
-
     public final void disableUpdateDraw() {
         disableUpdate();
         disableDraw();
     }
 
     public final void enableDraw() {
-        getDraw().setDraw(true);
+        draw.setCanCall(true);
     }
-
     public final void disableDraw() {
-        getDraw().setDraw(false);
+        draw.setCanCall(false);
     }
 
     public final void enableUpdate() {
-        getUpdate().setUpdate(true);
+        update.setCanCall(true);
     }
-
     public final void disableUpdate() {
-        getUpdate().setUpdate(false);
-    }
-
-    public final void setLayer(Integer layer) {
-        getDraw().setLayer(layer);
+        update.setCanCall(false);
     }
     //endregion
 
