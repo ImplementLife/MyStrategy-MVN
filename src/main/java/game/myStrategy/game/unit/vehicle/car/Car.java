@@ -1,8 +1,8 @@
 package game.myStrategy.game.unit.vehicle.car;
 
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 
@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Car extends Unit {
     //==========     Static     =============//
-    private static final GameObjectTypes TYPE = GameObjectTypes.CAR;
+    private static final GameObjectType TYPE = GameObjectType.CAR;
 
     private static Image image = new ImageIcon("resource/equipment/railEquipment/wagon/wagon.png").getImage();
     //=======================================//
@@ -79,7 +79,7 @@ public class Car extends Unit {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         drawer.drawImage(pos, /*lastPos,*/ image, new Angle(angle));
         //Wheels
         Vec2D w11 = Vec2D.newAngVec(pos, length/2, angle);

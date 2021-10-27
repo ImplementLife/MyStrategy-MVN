@@ -14,6 +14,7 @@ public class SquadControlPanel {
         this.squad = squad;
         button = new RectButton(squad.mover.centerPos, () -> squad.moveTo(Listener.getGlobalMousePos().clone()));
         //button = new RatioButton(centerPos, 20, () -> moveTo(Listener.getGlobalMousePos()));
+        button.enableUpdateDraw();
     }
 
     void foundCanUpdate(boolean isUpdate) {

@@ -1,6 +1,6 @@
 package game.myStrategy.game.unit.vehicle;
 
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public abstract class Vehicle extends Unit {
     //=======================================//
 
 
-    public Vehicle(GameObjectTypes type) {
+    public Vehicle(GameObjectType type) {
         super(type);
     }
 }

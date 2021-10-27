@@ -1,6 +1,6 @@
 package game.myStrategy.lib.draw.FX;
 
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
 
 import java.awt.*;
@@ -31,7 +31,7 @@ public class Arrow {
         this.end.setXY(end);
     }
 
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         if (draw) {
             float angle = (float) Vec2D.getAngle(first, end);
             right.setAngVec(end, 25, angle -2.8);

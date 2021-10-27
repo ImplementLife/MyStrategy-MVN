@@ -1,6 +1,6 @@
 package game.myStrategy.game.unit.button;
 
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.listener.Listener;
 
@@ -43,7 +43,7 @@ public class RatioButton extends Button {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         if (visible) {
             Color color = Color.GRAY;
             switch (state) {

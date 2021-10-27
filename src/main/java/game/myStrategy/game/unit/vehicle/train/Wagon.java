@@ -1,11 +1,11 @@
 package game.myStrategy.game.unit.vehicle.train;
 
 import game.myStrategy.game.draw.GameDrawService;
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.game.unit.button.RatioButton;
 import game.myStrategy.game.unit.button.Button;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Wagon extends Unit {
     //==========     Static     =============//
-    private static final GameObjectTypes TYPE = GameObjectTypes.WAGON;
+    private static final GameObjectType TYPE = GameObjectType.WAGON;
 
     private Image img = new ImageIcon("resource/entity/equipment/railEquipment/wagon/wagon.png").getImage();
 
@@ -127,7 +127,7 @@ public class Wagon extends Unit {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         drawer.drawCircle(nextWayPoint, 100, Color.GREEN, 5);
         drawer.drawImage(posNow, img, new Angle(angleNow));
         //drawer.drawRect(posNow, new Vec2D(200, 400), new Angle(angleNow), Color.RED, 1);

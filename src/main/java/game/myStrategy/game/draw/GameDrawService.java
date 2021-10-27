@@ -5,7 +5,7 @@ import game.myStrategy.game.draw.drawers.DrawerJPanel;
 import game.myStrategy.game.draw.drawers.DrawerMap;
 import game.myStrategy.game.objects.managers.DrawService;
 import game.myStrategy.game.update.Updater;
-import game.myStrategy.lib.draw.drawer.Drawer;
+import game.myStrategy.lib.draw.drawer.DrawerImpl;
 import game.myStrategy.lib.draw.drawer.GameDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsG;
@@ -41,7 +41,7 @@ public final class GameDrawService {
 
     private Camera camera;
 
-    private Drawer finalDrawer;
+    private DrawerImpl finalDrawerImpl;
     private GameDrawer painterMap;
     private GameDrawer painterObj;
 
@@ -71,11 +71,11 @@ public final class GameDrawService {
 
     private void setSettings() {
         setSettingsDrawers();
-        finalDrawer = new Drawer(size, true);
+        finalDrawerImpl = new DrawerImpl(size, true);
         painterMap = new GameDrawer(size, true);
         painterObj = new GameDrawer(size, true);
 
-        finalDrawer.setAll(settingsDrawer);
+        finalDrawerImpl.setAll(settingsDrawer);
         painterMap.setAll(settingsDrawer);
         painterObj.setAll(settingsDrawer);
 
@@ -85,7 +85,7 @@ public final class GameDrawService {
 
     private void d(JPanel panel) {
         drawerMap = new DrawerMap(painterMap);
-        drawerJPanel = new DrawerJPanel(panel, finalDrawer);
+        drawerJPanel = new DrawerJPanel(panel, finalDrawerImpl);
     }
 
     private void init(JPanel panel) {
@@ -99,11 +99,10 @@ public final class GameDrawService {
             threadManager.drawMap.setExe(() -> drawerMap.draw());
             threadManager.drawObj.setExe(() -> DrawService.get().iterate(painterObj));
             threadManager.drawFinal.setExe(() -> {
-                finalDrawer.fillRect(new Vec2D(), size, Color.GRAY, new Angle(0));
-                finalDrawer.drawImage(new Vec2D(), painterMap.getImage());
-                finalDrawer.drawImage(new Vec2D(), painterObj.getImage());
+                finalDrawerImpl.fillRect(new Vec2D(), size, Color.GRAY, new Angle(0));
+                finalDrawerImpl.drawImage(new Vec2D(), painterMap.getImage());
+                finalDrawerImpl.drawImage(new Vec2D(), painterObj.getImage());
                 this.screenshot();
-
 
                 camera.getCurrentScale();
 
@@ -120,8 +119,7 @@ public final class GameDrawService {
                     };
                 }
 
-
-                finalDrawer.drawString(new Vec2D(), data, 16, Color.YELLOW);
+                finalDrawerImpl.drawString(new Vec2D(), data, 16, Color.YELLOW);
 
                 drawerJPanel.draw();
 
@@ -143,7 +141,7 @@ public final class GameDrawService {
             String str = "resource/images/scr/" + date();
             try {
                 File f = new File(str + "scr.png");
-                ImageIO.write(finalDrawer.getImage(), "PNG", f);
+                ImageIO.write(finalDrawerImpl.getImage(), "PNG", f);
             } catch(Exception e) {
                 e.printStackTrace();
             }

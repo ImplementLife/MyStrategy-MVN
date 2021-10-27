@@ -10,16 +10,18 @@ import game.myStrategy.lib.math.Vec2D;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public final class GameDrawer implements Draw {
+public final class GameDrawer implements Drawer {
     //==========     Static     =============//
     public static boolean inCamera(Vec2D pos, double size) {
         Camera camera = GameDrawService.getCamera();
         if (pos.getX() < camera.firstPos.getX() - size || pos.getY() < camera.firstPos.getY() - size) return false;
         else return (pos.getX() < camera.endPos.getX() + size) && (pos.getY() < camera.endPos.getY() + size);
     }
+
     public static Vec2D posOnCamera(Vec2D pos) {
         return Vec2D.sub(pos, GameDrawService.getCamera().firstPos);
     }
+
     private static boolean rectInCamera(Vec2D posStart, Vec2D size) {
         Vec2D help = size.clone().scalar(0.5);
         double helpLength = help.getLength();
@@ -27,132 +29,132 @@ public final class GameDrawer implements Draw {
     }
 
     //=======================================//
-    private final Drawer drawer;
+    private final DrawerImpl drawerImpl;
     public GameDrawer(Vec2D size, boolean alpha) {
-        this.drawer = new Drawer(size, alpha);
+        this.drawerImpl = new DrawerImpl(size, alpha);
     }
 
     //=======================================//
 
     @Override
     public void drawString(Vec2D pos, String text, int size, Color color) {
-        drawer.drawString(posOnCamera(pos), text, size, color);
+        drawerImpl.drawString(posOnCamera(pos), text, size, color);
     }
 
     @Override
     public void drawString(Vec2D pos, String[] text, int size, Color color) {
-        drawer.drawString(posOnCamera(pos), text, size, color);
+        drawerImpl.drawString(posOnCamera(pos), text, size, color);
     }
 
     @Override
-    public void drawShape(Vec2D pos, Angle angle, Color color, float s, int c, float t) {
-        drawer.drawShape(posOnCamera(pos), angle, color, s, c, t);
+    public void drawShape(Vec2D pos, Angle angle, Color color, float l, int c, float t) {
+        drawerImpl.drawShape(posOnCamera(pos), angle, color, l, c, t);
     }
 
     @Override
     public void fillShape(Vec2D pos, Angle angle, Color color, float s, int c) {
-        drawer.fillShape(posOnCamera(pos), angle, color, s, c);
+        drawerImpl.fillShape(posOnCamera(pos), angle, color, s, c);
     }
 
     @Override
     public void fillShape(Vec2D pos, Angle angle, Color colF, Color colD, float s, int c, float t) {
-        drawer.fillShape(posOnCamera(pos), angle, colF, colD, s, c, t);
+        drawerImpl.fillShape(posOnCamera(pos), angle, colF, colD, s, c, t);
     }
 
     @Override
     public void drawRect(Vec2D pos, Vec2D size, Color color, Angle angle, float t) {
-        drawer.drawRect(posOnCamera(pos), size, color, angle, t);
+        drawerImpl.drawRect(posOnCamera(pos), size, color, angle, t);
     }
 
     @Override
     public void fillRect(Vec2D pos, Vec2D size, Color color, Angle angle) {
-        drawer.fillRect(posOnCamera(pos), size, color, angle);
+        drawerImpl.fillRect(posOnCamera(pos), size, color, angle);
     }
 
     @Override
     public void fillRect(Vec2D pos, Vec2D size, Color colF, Color colD, Angle angle, float t) {
-        drawer.fillRect(posOnCamera(pos), size, colF, colD, angle, t);
+        drawerImpl.fillRect(posOnCamera(pos), size, colF, colD, angle, t);
     }
 
     @Override
     public void drawLine(Vec2D v1, Vec2D v2, Color color, float thickness) {
-        drawer.drawLine(posOnCamera(v1), posOnCamera(v2), color, thickness);
+        drawerImpl.drawLine(posOnCamera(v1), posOnCamera(v2), color, thickness);
     }
 
     @Override
     public void drawCircle(Vec2D pos, float radius, Color color, float t) {
-        drawer.drawCircle(posOnCamera(pos), radius, color, t);
+        drawerImpl.drawCircle(posOnCamera(pos), radius, color, t);
     }
 
     @Override
     public void fillCircle(Vec2D pos, float radius, Color color) {
-        drawer.fillCircle(posOnCamera(pos), radius, color);
+        drawerImpl.fillCircle(posOnCamera(pos), radius, color);
     }
 
     @Override
     public void fillCircle(Vec2D pos, float radius, Color colF, Color colD, float t) {
-        drawer.fillCircle(posOnCamera(pos), radius, colF, colD, t);
+        drawerImpl.fillCircle(posOnCamera(pos), radius, colF, colD, t);
     }
 
     @Override
     public void drawImage(Vec2D pos, Image image) {
-        drawer.drawImage(posOnCamera(pos), image);
+        drawerImpl.drawImage(posOnCamera(pos), image);
     }
 
     @Override
     public void drawImage(Vec2D pos, Image image, Angle angle) {
-        drawer.drawImage(posOnCamera(pos), image, angle);
+        drawerImpl.drawImage(posOnCamera(pos), image, angle);
     }
 
     @Override
     public void drawImage(Vec2D pos, Image image, Angle angle, Vec2D offset) {
-        drawer.drawImage(posOnCamera(pos), image, angle, offset);
+        drawerImpl.drawImage(posOnCamera(pos), image, angle, offset);
     }
 
     //=======================================//
     public BufferedImage getImage() {
-        return drawer.getImage();
+        return drawerImpl.getImage();
     }
     public Graphics2D getG() {
-        return drawer.getG();
+        return drawerImpl.getG();
     }
     public void dispose() {
-        drawer.dispose();
+        drawerImpl.dispose();
     }
 
     public void setAntialiasing(SettingsG value) {
-        drawer.setAntialiasing(value);
+        drawerImpl.setAntialiasing(value);
     }
     public void setRendering(SettingsG value) {
-        drawer.setRendering(value);
+        drawerImpl.setRendering(value);
     }
     public void setDithering(SettingsG value) {
-        drawer.setDithering(value);
+        drawerImpl.setDithering(value);
     }
     public void setTextAntialiasing(SettingsG value) {
-        drawer.setTextAntialiasing(value);
+        drawerImpl.setTextAntialiasing(value);
     }
     public void setFractionalMetrics(SettingsG value) {
-        drawer.setFractionalMetrics(value);
+        drawerImpl.setFractionalMetrics(value);
     }
     public void setAlphaInterpolation(SettingsG value) {
-        drawer.setAlphaInterpolation(value);
+        drawerImpl.setAlphaInterpolation(value);
     }
     public void setColorRendering(SettingsG value) {
-        drawer.setColorRendering(value);
+        drawerImpl.setColorRendering(value);
     }
 
     public void setInterpolation(Object value) {
-        drawer.setInterpolation(value);
+        drawerImpl.setInterpolation(value);
     }
     public void setResolutionVariant(Object value) {
-        drawer.setResolutionVariant(value);
+        drawerImpl.setResolutionVariant(value);
     }
     public void setStrokeControl(Object value) {
-        drawer.setStrokeControl(value);
+        drawerImpl.setStrokeControl(value);
     }
 
     public void setAll(SettingsDrawer settingsDrawer) {
-        drawer.setAll(settingsDrawer);
+        drawerImpl.setAll(settingsDrawer);
     }
 }

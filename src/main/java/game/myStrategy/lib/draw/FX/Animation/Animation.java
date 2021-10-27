@@ -1,7 +1,8 @@
 package game.myStrategy.lib.draw.FX.Animation;
 
 import game.myStrategy.game.objects.GameObject;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.game.objects.managers.GameObjectType;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.game.resource.Resource;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.lib.timer.Timer;
@@ -19,6 +20,7 @@ public class Animation extends GameObject {
     private final boolean loop;
 
     public Animation(final Vec2D pos, String name, int delay, boolean loop) {
+        super(GameObjectType.EXPLOSION);
         this.pos = pos;
         this.delay = new Timer(delay);
         this.images = Resource.getResImageArray().get(PATH + name + SUFFIX);
@@ -39,7 +41,7 @@ public class Animation extends GameObject {
         }
     }
 
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         if (images != null) {
             Vec2D offset = new Vec2D();
             offset.setX(images[currentImage].getWidth(null));

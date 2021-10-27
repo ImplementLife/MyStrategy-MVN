@@ -1,7 +1,7 @@
 package game.myStrategy.game.objects;
 
 import game.myStrategy.game.context.InContext;
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -11,15 +11,15 @@ public class IdService extends InContext {
         private int countNum = 0;
         private int getUnitNum() { return countNum++; }
     }
-    private final TreeMap<GameObjectTypes, List> listsId;
+    private final TreeMap<GameObjectType, List> listsId;
     //private static TreeMap<Boolean, Id> mapId;
 
     public IdService() {
         listsId = new TreeMap<>();
-        for (GameObjectTypes type : GameObjectTypes.values()) listsId.put(type, new List());
+        for (GameObjectType type : GameObjectType.values()) listsId.put(type, new List());
     }
 
-    public Id getId(GameObjectTypes type) {
+    public Id getId(GameObjectType type) {
         return new Id(type, listsId.get(type).getUnitNum());
     }
 }

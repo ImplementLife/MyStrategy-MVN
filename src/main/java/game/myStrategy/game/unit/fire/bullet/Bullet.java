@@ -1,9 +1,9 @@
 package game.myStrategy.game.unit.fire.bullet;
 
 import game.myStrategy.game.objects.GameObject;
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.draw.FX.Animation.Animation;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 
@@ -15,7 +15,7 @@ import static game.myStrategy.game.update.Updater.dt;
 
 public class Bullet extends GameObject {
     //==========     Static     =============//
-    private static final GameObjectTypes TYPE = GameObjectTypes.BULLET;
+    private static final GameObjectType TYPE = GameObjectType.BULLET;
     private static HashMap<String, Image> images;
     static {
         images = new HashMap<>();
@@ -79,7 +79,7 @@ public class Bullet extends GameObject {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         if (image == null) {
             Vec2D temp = Vec2D.newAngVec(posNow, 10, angle.getValue() - Math.PI);
             drawer.drawLine(posNow, temp, Color.YELLOW, 0.8f);

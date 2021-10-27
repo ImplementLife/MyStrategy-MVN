@@ -1,6 +1,6 @@
 package game.myStrategy.game.unit.vehicle;
 
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 
@@ -33,7 +33,7 @@ public class Element {
         this.angle.setValue(angle);
     }
 
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         if (offset != null) drawer.drawImage(pos, image, angle, offset);
         else drawer.drawImage(pos, image, angle);
     }

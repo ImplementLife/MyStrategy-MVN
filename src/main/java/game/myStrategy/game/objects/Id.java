@@ -1,9 +1,6 @@
 package game.myStrategy.game.objects;
 
-import game.myStrategy.game.objects.managers.GameObjectTypes;
-
-import java.util.ArrayList;
-import java.util.TreeMap;
+import game.myStrategy.game.objects.managers.GameObjectType;
 
 public final class Id implements Comparable<Object> {
 
@@ -18,7 +15,7 @@ public final class Id implements Comparable<Object> {
 
     //region Constructors
 
-    public Id(GameObjectTypes type, int num) {
+    public Id(GameObjectType type, int num) {
         this.type = type.type;
         this.num = num;
         this.hash = this.type * 1_000_000 + this.num;

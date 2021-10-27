@@ -1,8 +1,8 @@
 package game.myStrategy.game.unit.squads;
 
-import game.myStrategy.game.objects.managers.GameObjectTypes;
+import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
-import game.myStrategy.lib.draw.drawer.Draw;
+import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Squad extends Unit {
     //==========     Static     =============//
-    private static final GameObjectTypes TYPE = GameObjectTypes.SQUAD;
+    private static final GameObjectType TYPE = GameObjectType.SQUAD;
 
     /*=======================================*/
     public static HashSet<Squad> squads = new HashSet<>();
@@ -108,7 +108,7 @@ public class Squad extends Unit {
     }
 
     @Override
-    public void draw(Draw drawer) {
+    public void draw(Drawer drawer) {
         mover.arrow.draw(drawer);
     }
 }
