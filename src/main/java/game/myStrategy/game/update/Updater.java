@@ -1,6 +1,8 @@
 package game.myStrategy.game.update;
 
+import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.game.objects.managers.UpdateService;
+import game.myStrategy.lib.CallManager;
 import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.lib.threads.bt.WhileThreadBT;
 
@@ -28,5 +30,18 @@ public final class Updater {
 
     public long getEPS() {
         return thread.getEPS();
+    }
+
+    //------------------------
+    private CallManager<GameObject> callManager = new CallManager<>();
+
+    public CallManager.Call<GameObject> get(GameObject gameObject) {
+        return callManager.get(gameObject);
+    }
+
+
+
+    interface Updating {
+        void update(DT dt);
     }
 }

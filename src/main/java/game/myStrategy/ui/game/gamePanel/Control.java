@@ -52,7 +52,7 @@ public class Control {
         keys.put("WHEEL_MOVE_DOWN", MouseKeyCode.WHEEL_MOVE_DOWN.getCode());
     }
     private boolean alt;
-//    private int temp = 0;
+    private int temp = 0;
     protected void update(Event e) {
         if(!enabled) return;
         if (e.isReleased(keys.get("exit"))) System.exit(0);
@@ -67,10 +67,11 @@ public class Control {
 
         if (e.isReleased(keys.get("v"))) {
 //            Генерация анимации взрыва
-//            if (temp < 5) temp++;
-//            if (temp == 5) temp = 1;
-//            new Animation(Listener.getGlobalMousePos().clone(), "exp_0" + temp, false);
-            new Animation(Listener.getGlobalMousePos().clone(), "exp_01", false);
+            if (temp < 5) temp++;
+            if (temp == 5) temp = 1;
+            new Animation(Listener.getGlobalMousePos().clone(), "exp_0" + temp, false)
+                    .enableUpdateDraw();
+//            new Animation(Listener.getGlobalMousePos().clone(), "exp_01", false);
         }
         if (e.isReleased(keys.get("alt"))) alt = false;
         else if (e.isPressed(keys.get("alt"))) alt = true;

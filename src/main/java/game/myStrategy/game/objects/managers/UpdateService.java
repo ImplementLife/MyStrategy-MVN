@@ -1,9 +1,7 @@
 package game.myStrategy.game.objects.managers;
 
 import game.myStrategy.game.objects.GameObject;
-
-import java.util.HashSet;
-import java.util.LinkedList;
+import game.myStrategy.lib.noConcurrent.NoConcurrentList;
 
 //TODO схлопнуть до джинериков
 public class UpdateService {
@@ -16,27 +14,18 @@ public class UpdateService {
     private UpdateService() {}
     //endregion
 
-    //region Fields
-    private final HashSet<Update> updateSet = new HashSet<>();
-    private final LinkedList<Update> addList = new LinkedList<>();
-    private final LinkedList<Update> removeList = new LinkedList<>();
-    //endregion
+    private final NoConcurrentList<Update> list = new NoConcurrentList<>();
 
     public void iterate() {
-        updateList();
-        for (Update target : updateSet) target.update();
+        list.forEach(Update::update);
     }
-    private synchronized void updateList() {
-        updateSet.removeAll(removeList);
-        updateSet.addAll(addList);
-        removeList.clear();
-        addList.clear();
+
+    private void put(Update o) {
+        list.add(o);
     }
-    private synchronized void put(Update o) {
-        addList.add(o);
-    }
-    private synchronized void remove(Update o) {
-        removeList.add(o);
+
+    private void remove(Update o) {
+        list.remove(o);
     }
 
     //==============================================//

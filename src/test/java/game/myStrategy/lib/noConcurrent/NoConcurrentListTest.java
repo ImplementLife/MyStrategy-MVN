@@ -1,5 +1,6 @@
 package game.myStrategy.lib.noConcurrent;
 
+import game.myStrategy.lib.math.Angle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +19,14 @@ class NoConcurrentListTest {
     @Test
     void testFunMainCase1() {
         assertDoesNotThrow(() -> {
-            for (int i = 0; i < 3; i++) list.iterate(q -> list.add(new Q()));
+            for (int i = 0; i < 3; i++) list.forEach(q -> list.add(new Q()));
         });
     }
 
     @Test
     void testFunMainCase2() {
         assertDoesNotThrow(() -> {
-            for (int i = 0; i < 3; i++) list.iterate(q -> list.del(q));
+            for (int i = 0; i < 3; i++) list.forEach(q -> list.remove(q));
         });
     }
 
@@ -33,10 +34,10 @@ class NoConcurrentListTest {
     void testFunMainCase3() {
         assertDoesNotThrow(() -> {
             for (int i = 0; i < 3; i++) {
-                list.iterate(q -> {
+                list.forEach(q -> {
                     Q q1 = new Q();
                     list.add(q1);
-                    list.del(q1);
+                    list.remove(q1);
                 });
             }
         });
@@ -46,8 +47,8 @@ class NoConcurrentListTest {
     void testConcurrentInTwoThreads() {
         for (int i = 0; i < 100; i++) list.add(new Q());
         assertDoesNotThrow(() -> {
-            new Thread(() -> list.iterate(q -> list.add(new Q()))).start();
-            new Thread(() -> list.iterate(q -> list.del(q))).start();
+            new Thread(() -> list.forEach(q -> list.add(new Q()))).start();
+            new Thread(() -> list.forEach(q -> list.remove(q))).start();
         });
     }
 }

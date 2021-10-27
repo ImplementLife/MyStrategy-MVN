@@ -1,42 +1,54 @@
 package game.myStrategy.lib.noConcurrent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
-public class NoConcurrentMap<K extends Comparable<K>, T extends WithKey<K>> {
-    private final Map<K, T> currMap;
-    private final List<T> addList;
-    private final List<T> delList;
+public class NoConcurrentMap<K extends Comparable<K>, V> {
+    private final TreeMap<K, V> currMap;
+    private final HashMap<K, V> putMap;
+    private final LinkedList<V> delList;
 
     public NoConcurrentMap() {
         currMap = new TreeMap<>();
-        addList = new ArrayList<>();
-        delList = new ArrayList<>();
+        delList = new LinkedList<>();
+        putMap = new HashMap<>();
     }
 
-    public void add(T t) {
-        addList.add(t);
+    public void put(K k, V v) {
+        putMap.put(k, v);
     }
 
-    public void del(T t) {
-        delList.add(t);
+    public void remove(V v) {
+        delList.add(v);
     }
 
-    public void del(K k) {
-        delList.add(currMap.get(k));
+    public void remove(K k) {
+        remove(currMap.get(k));
     }
 
-    public void iterate(Run<T> run) {
+    public V get(K k) {
+        V v = currMap.get(k);
+        if (v == null) v = putMap.get(k);
+        return v;
+    }
+
+    public void forEach(Consumer<? super V> action) {
         update();
-        for (T t : currMap.values()) run.run(t);
+        synchronized (this) {
+            currMap.values().forEach(action);
+        }
+    }
+
+    public boolean containsKey(K k) {
+        return currMap.containsKey(k) || putMap.containsKey(k);
     }
 
     private void update() {
-        for (T t : addList) currMap.put(t.getKey(), t);
-        addList.clear();
-        for (T t : delList) currMap.remove(t.getKey(), t);
+        currMap.putAll(putMap);
+        putMap.clear();
+        for (V v : delList) currMap.remove(v);
         delList.clear();
     }
 }

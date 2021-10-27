@@ -7,6 +7,8 @@ import java.awt.*;
 
 public class Arrow {
     private final Vec2D first, end, right, left;
+    private float angleBetweenArr = 2.8f;
+    private float lengthArr = 25f;
     private boolean draw;
 
     public Arrow() {
@@ -34,8 +36,8 @@ public class Arrow {
     public void draw(Drawer drawer) {
         if (draw) {
             float angle = (float) Vec2D.getAngle(first, end);
-            right.setAngVec(end, 25, angle -2.8);
-            left.setAngVec(end, 25, angle +2.8);
+            right.setAngVec(end, lengthArr, angle - angleBetweenArr);
+            left.setAngVec( end, lengthArr, angle + angleBetweenArr);
 
             drawer.drawLine(first, end, Color.BLACK, 2);
             drawer.drawLine(end, right, Color.BLACK, 2);

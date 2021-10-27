@@ -15,6 +15,7 @@ public class EPS implements Runnable {
     }
 
     public long getEPS() {
+        if (time == 0) return Long.MAX_VALUE;
         return TIME_NANO_PER_SECOND / time;
     }
     public long getTime() {

@@ -8,6 +8,7 @@ import game.myStrategy.game.draw.DrawService;
 import game.myStrategy.game.map.MapService;
 import game.myStrategy.game.net.NetService;
 import game.myStrategy.game.objects.IdService;
+import game.myStrategy.game.unit.UnitFactory;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.ui.UIService;
 import game.myStrategy.ui.game.CursorService;
@@ -33,8 +34,8 @@ public class Context {
 
     private MouseService      mouseService;
     private AudioService      audioService;
+    private UpdateService     updateService;
     private DrawService       drawService;
-    private MapService        mapService;
 
     private NetService        netService;
     private CursorService     cursorService;
@@ -43,13 +44,14 @@ public class Context {
 
     private GameService       gameService;
     private IdService         idService;
-    private UpdateService     updateService;
+    private MapService        mapService;
     private DiplomacyService  diplomacyService;
+
+    private UnitFactory       unitFactory;
 
     //endregion
 
     //region Setters
-
 
     public void setDiplomacyService(DiplomacyService diplomacyService) {
         this.diplomacyService = diplomacyService;

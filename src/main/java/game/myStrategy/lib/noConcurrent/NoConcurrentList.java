@@ -1,38 +1,18 @@
 package game.myStrategy.lib.noConcurrent;
 
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class NoConcurrentList<T> {
-    private final List<T> curList;
-    private final List<T> addList;
-    private final List<T> delList;
+public class NoConcurrentList<V> {
+    private final List<V> curList;
+    private final List<V> addList;
+    private final List<V> delList;
 
     public NoConcurrentList() {
-        curList = new ArrayList<>();
-        addList = new ArrayList<>();
-        delList = new ArrayList<>();
-    }
-
-    public int size() {
-        update();
-        return curList.size();
-    }
-
-    public boolean isEmpty() {
-        update();
-        return curList.isEmpty();
-    }
-
-    public boolean contains(T o) {
-        update();
-        return curList.contains(o);
-    }
-
-    public void sort(Comparator<? super T> c) {
-        update();
-        curList.sort(c);
+        curList = new LinkedList<>();
+        addList = new LinkedList<>();
+        delList = new LinkedList<>();
     }
 
     public void clear() {
@@ -41,18 +21,18 @@ public class NoConcurrentList<T> {
         delList.clear();
     }
 
-    public void add(T t) {
-        addList.add(t);
+    public void add(V v) {
+        addList.add(v);
     }
 
-    public void del(T t) {
-        delList.add(t);
+    public void remove(V v) {
+        delList.add(v);
     }
 
-    public void iterate(Run<T> run) {
+    public void forEach(Consumer<? super V> action) {
         update();
         synchronized (this) {
-            for (T t : curList) run.run(t);
+            curList.forEach(action);
         }
     }
 

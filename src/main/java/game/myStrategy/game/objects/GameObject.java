@@ -5,6 +5,7 @@ import game.myStrategy.game.objects.managers.DrawService;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.objects.managers.UpdateService;
 import game.myStrategy.lib.draw.drawer.Drawer;
+import game.myStrategy.lib.draw.drawer.drawCall.DrawCall;
 
 public class GameObject implements Comparable<Object> {
     //region Fields
@@ -14,7 +15,7 @@ public class GameObject implements Comparable<Object> {
     private DrawService.Draw draw;
     private UpdateService.Update update;
     protected Context context;
-
+    protected DrawCall drawCall;
     //endregion
 
     //region Constructor

@@ -2,10 +2,9 @@ package game.myStrategy.game.objects.managers;
 
 import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.noConcurrent.NoConcurrentList;
+import game.myStrategy.lib.noConcurrent.NoConcurrentMap;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.TreeMap;
 
 public class DrawService {
     //region Singleton
@@ -17,42 +16,25 @@ public class DrawService {
     private DrawService() {}
     //endregion
 
-    //region Fields
-    private final TreeMap<Integer, HashSet<Draw>> mapDrawSets = new TreeMap<>();
-    private final ArrayList<Draw> tempAdd = new ArrayList<>();
-    private final ArrayList<Draw> tempRemove = new ArrayList<>();
-    //endregion
+    private final NoConcurrentMap<Integer, NoConcurrentList<Draw>> mapDraw = new NoConcurrentMap<>();
 
     public void iterate(GameDrawer gameDrawer) {
-        updateList();
-        for (HashSet<Draw> set : mapDrawSets.values()) {
-            for (Draw d : set) {
-                try {
-                    d.draw(gameDrawer);
-                } catch (Exception ignore) { /*ignore.printStackTrace();*/ }
-            }
-        }
+        mapDraw.forEach(h -> h.forEach(d -> d.draw(gameDrawer)));
     }
 
-    private synchronized void updateList() {
-        for (Draw draw : tempRemove) {
-            if (mapDrawSets.containsKey(draw.layer)) mapDrawSets.get(draw.layer).remove(draw);
+    private void put(Draw d) {
+        NoConcurrentList<Draw> tempList;
+        if (!mapDraw.containsKey(d.layer)) {
+            tempList = new NoConcurrentList<>();
+            mapDraw.put(d.layer, tempList);
+        } else {
+            tempList = mapDraw.get(d.layer);
         }
-
-        for (Draw draw : tempAdd) {
-            if (!mapDrawSets.containsKey(draw.layer)) mapDrawSets.put(draw.layer, new HashSet<>());
-            mapDrawSets.get(draw.layer).add(draw);
-        }
-
-        tempRemove.clear();
-        tempAdd.clear();
+        tempList.add(d);
     }
 
-    private synchronized void put(Draw o) {
-        tempAdd.add(o);
-    }
-    private synchronized void remove(Draw o) {
-        tempRemove.add(o);
+    private void remove(Draw d) {
+        if (mapDraw.containsKey(d.layer)) mapDraw.get(d.layer).remove(d);
     }
 
     //==============================================//
@@ -75,9 +57,10 @@ public class DrawService {
             return layer;
         }
         public void setLayer(Integer layer) {
+            if (this.layer == null) this.layer = -100;
+            remove();
             this.layer = layer;
             get().put(this);
-            remove();
         }
 
         public void setDraw(boolean draw) {
