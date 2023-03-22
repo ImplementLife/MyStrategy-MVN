@@ -48,7 +48,7 @@ public class FireManagerImpl implements FireManager {
                             pause = !pause;
                         }
                         if (pause && reloadAmmo.startF()) {
-                            double rad = Vec2D.getLength(unit.getPos(), attackedUnit.getPos()) * 0.01;
+                            double rad = Vec2D.getLength(unit.getPos(), attackedUnit.getPos()) * 0.05;
                             currentClip.getAmmo().shot(unit.getPos(), Vec2D.newRandomVec(attackedUnit.getPos(), rad), () -> {
                                 if (attackedUnit != null) {
                                     if (attackedUnit.isDeleted()) fire = false;

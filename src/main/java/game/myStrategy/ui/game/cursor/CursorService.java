@@ -1,4 +1,4 @@
-package game.myStrategy.ui.game;
+package game.myStrategy.ui.game.cursor;
 
 import game.myStrategy.game.context.InContext;
 import game.myStrategy.ui.game.gamePanel.GamePanel;

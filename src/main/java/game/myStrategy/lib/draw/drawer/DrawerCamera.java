@@ -5,12 +5,13 @@ import game.myStrategy.game.draw.camera.Camera;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsG;
 import game.myStrategy.lib.math.Angle;
+import game.myStrategy.lib.math.bezier.BezierCurve;
 import game.myStrategy.lib.math.Vec2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public final class GameDrawer implements Drawer {
+public final class DrawerCamera implements Drawer {
     //==========     Static     =============//
     public static boolean inCamera(Vec2D pos, double size) {
         Camera camera = GameDrawService.getCamera();
@@ -21,6 +22,9 @@ public final class GameDrawer implements Drawer {
     public static Vec2D posOnCamera(Vec2D pos) {
         return Vec2D.sub(pos, GameDrawService.getCamera().firstPos);
     }
+    public static Vec2D posCamera() {
+        return GameDrawService.getCamera().firstPos;
+    }
 
     private static boolean rectInCamera(Vec2D posStart, Vec2D size) {
         Vec2D help = size.clone().scalar(0.5);
@@ -29,9 +33,9 @@ public final class GameDrawer implements Drawer {
     }
 
     //=======================================//
-    private final DrawerImpl drawerImpl;
-    public GameDrawer(Vec2D size, boolean alpha) {
-        this.drawerImpl = new DrawerImpl(size, alpha);
+    private final DrawerAWT drawerImpl;
+    public DrawerCamera(Vec2D size, boolean alpha) {
+        this.drawerImpl = new DrawerAWT(size, alpha);
     }
 
     //=======================================//
@@ -74,6 +78,12 @@ public final class GameDrawer implements Drawer {
     @Override
     public void fillRect(Vec2D pos, Vec2D size, Color colF, Color colD, Angle angle, float t) {
         drawerImpl.fillRect(posOnCamera(pos), size, colF, colD, angle, t);
+    }
+
+    @Override
+    public void drawBezierCurve(BezierCurve curve, Color color, float t) {
+        drawerImpl.setOffset(posCamera());
+        drawerImpl.drawBezierCurve(curve, color, t);
     }
 
     @Override

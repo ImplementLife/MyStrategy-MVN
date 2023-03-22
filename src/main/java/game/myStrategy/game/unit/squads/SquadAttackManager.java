@@ -2,7 +2,7 @@ package game.myStrategy.game.unit.squads;
 
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.CursorService;
+import game.myStrategy.ui.game.cursor.CursorService;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.game.gamePanel.listener.Listener;

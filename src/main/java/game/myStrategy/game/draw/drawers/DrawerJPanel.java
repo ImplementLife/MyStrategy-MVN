@@ -1,15 +1,15 @@
 package game.myStrategy.game.draw.drawers;
 
-import game.myStrategy.lib.draw.drawer.DrawerImpl;
+import game.myStrategy.lib.draw.drawer.DrawerAWT;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DrawerJPanel {
     private final JPanel panel;
-    private final DrawerImpl drawerImpl;
+    private final DrawerAWT drawerImpl;
 
-    public DrawerJPanel(JPanel panel, DrawerImpl drawerImpl) {
+    public DrawerJPanel(JPanel panel, DrawerAWT drawerImpl) {
         this.panel = panel;
         this.drawerImpl = drawerImpl;
     }

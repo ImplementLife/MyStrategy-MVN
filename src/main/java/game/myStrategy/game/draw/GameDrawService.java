@@ -4,8 +4,8 @@ import game.myStrategy.game.draw.camera.Camera;
 import game.myStrategy.game.draw.drawers.DrawerJPanel;
 import game.myStrategy.game.draw.drawers.DrawerMap;
 import game.myStrategy.game.update.UpdateService;
-import game.myStrategy.lib.draw.drawer.DrawerImpl;
-import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.draw.drawer.DrawerAWT;
+import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsG;
 import game.myStrategy.lib.math.Angle;
@@ -41,9 +41,9 @@ public final class GameDrawService {
 
     private Camera camera;
 
-    private DrawerImpl finalDrawerImpl;
-    private GameDrawer painterMap;
-    private GameDrawer painterObj;
+    private DrawerAWT finalDrawerImpl;
+    private DrawerCamera painterMap;
+    private DrawerCamera painterObj;
 
     private DrawerMap drawerMap;
     private DrawerJPanel drawerJPanel;
@@ -71,9 +71,9 @@ public final class GameDrawService {
 
     private void setSettings() {
         setSettingsDrawers();
-        finalDrawerImpl = new DrawerImpl(size, true);
-        painterMap = new GameDrawer(size, true);
-        painterObj = new GameDrawer(size, true);
+        finalDrawerImpl = new DrawerAWT(size, true);
+        painterMap = new DrawerCamera(size, true);
+        painterObj = new DrawerCamera(size, true);
 
         finalDrawerImpl.setAll(settingsDrawer);
         painterMap.setAll(settingsDrawer);

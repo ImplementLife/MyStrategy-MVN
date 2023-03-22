@@ -3,6 +3,7 @@ package game.myStrategy.lib.draw.drawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsG;
 import game.myStrategy.lib.math.Angle;
+import game.myStrategy.lib.math.bezier.BezierCurve;
 import game.myStrategy.lib.math.Vec2D;
 
 import java.awt.*;
@@ -15,18 +16,20 @@ import java.awt.image.BufferedImage;
 /**
  * Делегируй методы
  */
-public final class DrawerImpl implements Drawer {
+public final class DrawerAWT implements Drawer {
     private final BufferedImage image;
     private final Graphics2D g;
+    private final Vec2D offset;
 
-    public DrawerImpl(BufferedImage image, Graphics2D g) {
+    public DrawerAWT(BufferedImage image, Graphics2D g) {
         this.image = image;
         this.g = g;
+        offset = new Vec2D();
     }
-    public DrawerImpl(BufferedImage image) {
+    public DrawerAWT(BufferedImage image) {
         this(image, image.createGraphics());
     }
-    public DrawerImpl(Vec2D size, boolean alpha) {
+    public DrawerAWT(Vec2D size, boolean alpha) {
         this(new BufferedImage(size.getIntX(), size.getIntY(), alpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB));
         if (alpha) g.setBackground(new Color(0, true));
     }
@@ -45,7 +48,11 @@ public final class DrawerImpl implements Drawer {
         g.clearRect(0,0, w, h);
     }
 
-    //======================   Delegate Graphics2D
+    void setOffset(Vec2D offset) {
+        this.offset.setXY(offset);
+    }
+
+    //region Delegate Graphics2D
     private void forAngle(Vec2D pos, Angle angle, Runnable target) {
         AffineTransform origForm = g.getTransform();
         AffineTransform newForm = (AffineTransform)(origForm.clone());
@@ -68,19 +75,29 @@ public final class DrawerImpl implements Drawer {
         g.setColor(color);
         g.fill(shape);
     }
+    //endregion
+    //region Get Shape
 
-    //======================   Get Shape
-    private Path2D.Double getShape(Vec2D vec[]) {
+    private Path2D.Double createBezierCurve() {
+        throw new UnsupportedOperationException();
+    }
+
+    private Path2D.Double createLine(Vec2D vec[]) {
         Path2D.Double shape = new Path2D.Double();
-        shape.moveTo(vec[0].getX(), vec[0].getY());
+        shape.moveTo(vec[0].getX() - offset.getX(), vec[0].getY() - offset.getY());
         for (int i = 1; i < vec.length; i++) {
-            shape.lineTo(vec[i].getX(), vec[i].getY());
+            shape.lineTo(vec[i].getX() - offset.getX(), vec[i].getY() - offset.getY());
         }
+        return shape;
+    }
+
+    private Path2D.Double createShape(Vec2D vec[]) {
+        Path2D.Double shape = createLine(vec);
         shape.closePath();
         return shape;
     }
 
-    private Path2D.Float getShape(Vec2D pos, double R, int n) {
+    private Path2D.Float createShape(Vec2D pos, double R, int n) {
         Path2D.Float shape = new Path2D.Float();
         final double angle = Angle.E / n;
         double currentAngle = 0;
@@ -96,7 +113,7 @@ public final class DrawerImpl implements Drawer {
         return shape;
     }
 
-    private Path2D.Float getRect(Vec2D pos, Vec2D size) {
+    private Path2D.Float createRect(Vec2D pos, Vec2D size) {
         Path2D.Float rect = new Path2D.Float();
         Vec2D pos2 = pos.clone().add(size);
         rect.moveTo(pos.getX(), pos.getY());
@@ -107,7 +124,7 @@ public final class DrawerImpl implements Drawer {
         return rect;
     }
 
-    private Ellipse2D.Double getCircle(Vec2D pos, float radius) {
+    private Ellipse2D.Double createCircle(Vec2D pos, float radius) {
         Ellipse2D.Double circle = new Ellipse2D.Double();
         circle.x = pos.getX() - radius;
         circle.y = pos.getY() - radius;
@@ -115,8 +132,8 @@ public final class DrawerImpl implements Drawer {
         circle.height = radius*2;
         return circle;
     }
-
-    //======================   Draw String
+    //endregion
+    //region Draw String
 
     @Override
     public void drawString(Vec2D pos, String text, int size, Color color) {
@@ -131,17 +148,17 @@ public final class DrawerImpl implements Drawer {
         Vec2D vec = pos.clone().subY(4);
         for (String str : text) drawString(vec.addY(size + 2), str, size, color);
     }
-
-    //======================   Draw Shape
+    //endregion
+    //region Draw Shape
 
     @Override
     public void drawShape(Vec2D pos, Angle angle, Color color, float l, int c, float t) {
-        forAngle(pos, angle, () -> draw(getShape(pos, l, c), t, color));
+        forAngle(pos, angle, () -> draw(createShape(pos, l, c), t, color));
     }
 
     @Override
     public void fillShape(Vec2D pos, Angle angle, Color color, float s, int c) {
-        forAngle(pos, angle, () -> fill(getShape(pos, s, c), color));
+        forAngle(pos, angle, () -> fill(createShape(pos, s, c), color));
     }
 
     @Override
@@ -149,19 +166,19 @@ public final class DrawerImpl implements Drawer {
         fillShape(pos, angle, colF, s, c);
         if (t > 0) drawShape(pos, angle, colD, s, c, t);
     }
-
-    //======================   Draw Rect
+    //endregion
+    //region Draw Rect
 
     @Override
     public void drawRect(Vec2D pos, Vec2D size, Color color, Angle angle, float t) {
-        if (angle == null || angle.getValue() == 0) draw(getRect(pos, size), t, color);
-        else forAngle(pos, angle, () -> draw(getRect(Vec2D.sub(pos, Vec2D.scalar(size, 0.5)), size), t, color));
+        if (angle == null || angle.getValue() == 0) draw(createRect(pos, size), t, color);
+        else forAngle(pos, angle, () -> draw(createRect(Vec2D.sub(pos, Vec2D.scalar(size, 0.5)), size), t, color));
     }
 
     @Override
     public void fillRect(Vec2D pos, Vec2D size, Color color, Angle angle) {
-        if (angle == null || angle.getValue() == 0) fill(getRect(pos, size), color);
-        else forAngle(pos, angle, () -> fill(getRect(Vec2D.sub(pos, Vec2D.scalar(size, 0.5)), size), color));
+        if (angle == null || angle.getValue() == 0) fill(createRect(pos, size), color);
+        else forAngle(pos, angle, () -> fill(createRect(Vec2D.sub(pos, Vec2D.scalar(size, 0.5)), size), color));
     }
 
     @Override
@@ -169,34 +186,39 @@ public final class DrawerImpl implements Drawer {
         fillRect(pos, size, colF, angle);
         if (t > 0) drawRect(pos, size, colD, angle, t);
     }
+    //endregion
+    //region Draw Line
 
-    //======================   Draw Line
+    @Override
+    public void drawBezierCurve(BezierCurve curve, Color color, float t) {
+        draw(createLine(curve.getPoints().toArray(new Vec2D[0])), t, color);
+    }
 
     @Override
     public void drawLine(Vec2D v1, Vec2D v2, Color color, float thickness) {
         draw(new Line2D.Double(v1.getX(), v1.getY(), v2.getX(), v2.getY()), thickness, color);
     }
-
-    //======================   Draw Circle
+    //endregion
+    //region Draw Circle
 
     @Override
     public void drawCircle(Vec2D pos, float radius, Color color, float t) {
-        draw(getCircle(pos, radius), t, color);
+        draw(createCircle(pos, radius), t, color);
     }
 
     @Override
     public void fillCircle(Vec2D pos, float radius, Color color) {
-        fill(getCircle(pos, radius), color);
+        fill(createCircle(pos, radius), color);
     }
 
     @Override
     public void fillCircle(Vec2D pos, float radius, Color colF, Color colD, float t) {
-        Shape circle = getCircle(pos, radius);
+        Shape circle = createCircle(pos, radius);
         fill(circle, colF);
         if (t > 0) draw(circle, t, colD);
     }
-
-    //======================   Draw Image
+    //endregion
+    //region Draw Image
 
     @Override
     public void drawImage(Vec2D pos, Image image) {
@@ -213,8 +235,8 @@ public final class DrawerImpl implements Drawer {
     public void drawImage(Vec2D pos, Image image, Angle angle, Vec2D offset) {
         forAngle(pos, angle, () -> drawImage(Vec2D.sub(pos, offset), image));
     }
-
-    //======================   Settings
+    //endregion
+    //region Settings
     public void setAntialiasing(SettingsG value) {
         switch (value) {
             case QUALITY: g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); break;
@@ -281,4 +303,5 @@ public final class DrawerImpl implements Drawer {
     public void setAll(SettingsDrawer settingsDrawer) {
         g.setRenderingHints(settingsDrawer.getSettings());
     }
+    //endregion
 }

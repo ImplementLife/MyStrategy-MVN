@@ -2,7 +2,7 @@ package game.myStrategy.game.unit.vehicle.tank;
 
 import game.myStrategy.game.unit.vehicle.DBT;
 import game.myStrategy.game.update.move.SpeedController;
-import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 
@@ -82,7 +82,7 @@ public class MoverTank extends SpeedController {
         return move;
     }
 
-    public void draw(GameDrawer drawer) {
+    public void draw(DrawerCamera drawer) {
         String[] text = {
                 "toBrake = " + toBrake,
                 "rotate = " + rotate,

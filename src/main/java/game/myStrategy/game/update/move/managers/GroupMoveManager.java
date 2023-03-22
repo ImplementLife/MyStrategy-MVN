@@ -2,7 +2,7 @@ package game.myStrategy.game.update.move.managers;
 
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.game.update.move.Mover;
-import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.menu.FrameController;
@@ -72,7 +72,7 @@ public class GroupMoveManager implements Mover {
     }
 
     @Override
-    public void draw(GameDrawer drawer) {
+    public void draw(DrawerCamera drawer) {
 
     }
 }

@@ -3,7 +3,7 @@ package game.myStrategy.game.draw.drawers;
 import game.myStrategy.game.map.MapGenerator;
 import game.myStrategy.game.map.Tile;
 import game.myStrategy.game.map.TypeTile;
-import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.game.resource.ImageLoader;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.listener.Listener;
@@ -14,9 +14,9 @@ import java.util.HashMap;
 public class DrawerMap {
     private static final String PATH_IMAGES = "resource/images/tiles/";
 
-    private final GameDrawer drawer;
+    private final DrawerCamera drawer;
 
-    public DrawerMap(GameDrawer drawer) {
+    public DrawerMap(DrawerCamera drawer) {
         this.drawer = drawer;
         this.sizeTile = 128;
         this.sizeMap = MapGenerator.getSize();
@@ -54,7 +54,7 @@ public class DrawerMap {
         for (int X = 1; X < sizeMap.getX(); X++) {
             for (int Y = 1; Y < sizeMap.getY(); Y++) {
                 Vec2D pos = new Vec2D(X, Y).scalar(sizeTile);
-                if (GameDrawer.inCamera(pos, sizeTile)) {
+                if (DrawerCamera.inCamera(pos, sizeTile)) {
                     Vec2D posInCamera = pos.sub(new Vec2D(sizeTile, sizeTile));
 
                     Tile tile = MapGenerator.getTile(new Vec2D(X, Y));

@@ -1,7 +1,7 @@
 package game.myStrategy.game.unit.human;
 
 import game.myStrategy.game.update.move.SpeedController;
-import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Vec2D;
 
 import java.awt.*;
@@ -55,7 +55,7 @@ public class MoverHuman extends SpeedController {
 
     //////////////===========
 
-    public void draw(GameDrawer drawer) {
+    public void draw(DrawerCamera drawer) {
         String[] strings = {
                 "speed = " + getSpeed(),
                 "Length Way = " + course.getLength(),

@@ -44,6 +44,14 @@ public class WayPoint extends Vec2D {
         return previousWayPoint;
     }
 
+    public WayPoint createNext(Vec2D pos) {
+        WayPoint newWayPoint = new WayPoint(pos);
+
+        this.nextWayPoint = newWayPoint;
+        newWayPoint.previousWayPoint = this;
+        return newWayPoint;
+    }
+
     //=======================================//
     @Override
     public boolean equals(Object o) {

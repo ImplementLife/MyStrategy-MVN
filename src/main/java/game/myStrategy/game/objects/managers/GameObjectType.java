@@ -1,7 +1,8 @@
 package game.myStrategy.game.objects.managers;
 
 public enum GameObjectType {
-    DECAL(0),
+    DECAL(-1),
+    CURVE(0),
     ROAD(1),
     RAIL_WAY(2),
     PLATFORM(3),
@@ -21,7 +22,10 @@ public enum GameObjectType {
     BULLET(18),
     EXPLOSION(19),
     SQUAD(20),
-    BUTTON(21);
+    BUTTON(21),
+
+    DEV(10_000),
+    ;
 
     //=======================================//
 

@@ -7,7 +7,7 @@ import game.myStrategy.game.update.move.Mover;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.gamePanel.Control;
+import game.myStrategy.ui.game.gamePanel.control.Control;
 
 import java.awt.*;
 

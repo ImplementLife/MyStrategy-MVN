@@ -1,6 +1,6 @@
 package game.myStrategy.game.update.move;
 
-import game.myStrategy.lib.draw.drawer.GameDrawer;
+import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Vec2D;
 
 public interface Mover {
@@ -9,5 +9,5 @@ public interface Mover {
     boolean isMove();
 
     @Deprecated
-    void draw(GameDrawer drawer);
+    void draw(DrawerCamera drawer);
 }

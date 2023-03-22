@@ -12,7 +12,7 @@ import game.myStrategy.game.unit.UnitFactory;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.UIService;
-import game.myStrategy.ui.game.CursorService;
+import game.myStrategy.ui.game.cursor.CursorService;
 import game.myStrategy.ui.game.MouseService;
 
 // TODO: 31.07.2021 продумать и внедрить сервисы

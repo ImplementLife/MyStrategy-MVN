@@ -1,6 +1,7 @@
 package game.myStrategy.lib.draw.drawer;
 
 import game.myStrategy.lib.math.Angle;
+import game.myStrategy.lib.math.bezier.BezierCurve;
 import game.myStrategy.lib.math.Vec2D;
 
 import java.awt.*;
@@ -77,6 +78,8 @@ public interface Drawer {
      * @param t     - толшина
      */
     void drawLine(Vec2D v1, Vec2D v2, Color color, float t);
+
+    void drawBezierCurve(BezierCurve curve, Color color, float t);
 
 
     /**

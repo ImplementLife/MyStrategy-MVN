@@ -45,7 +45,7 @@ public class Wagon extends Unit {
         WayPoint frontWayPoint = railWay.getRight();
         WayPoint backWayPoint = railWay.getLeft();
 
-        Vec2D temp = Vec2D.sub(backWayPoint, frontWayPoint);
+        Vec2D temp = Vec2D.sub(frontWayPoint, backWayPoint);
         angleNow = (float) temp.getAngle();
         this.posNow = Vec2D.newAngVec(backWayPoint, lengthOfBack, angleNow);
 
@@ -55,30 +55,34 @@ public class Wagon extends Unit {
         nextWayPoint = frontWayPoint;
 
         button = new RatioButton(posNow, 30, () -> t = !t);
+        super.enableUpdateDraw();
     }
+    double angleFromBackTrolleyToNextPoint;
+
     private boolean t = false;
     private void move() {
         if (speed < MAX_SPEED) speed += 0.5;
         if (move) {
             //Задняя тележка
-            Vec2D backForNext = Vec2D.sub(nextWayPoint, backTrolley);
-            double tempAngle = backForNext.getAngle();
-            if (backForNext.getLength() < speed) {
-                tempAngle = Vec2D.getAngle(nextWayPoint, nextWayPoint.getNext());
-                backTrolley.setXY(Vec2D.newAngVec(nextWayPoint, speed - backForNext.getLength(), tempAngle));
+            Vec2D dirBackTrolleyToNextPoint = Vec2D.sub(nextWayPoint, backTrolley);
+
+            if (dirBackTrolleyToNextPoint.getLength() < speed) {
+                angleFromBackTrolleyToNextPoint = Vec2D.getAngle(nextWayPoint, nextWayPoint.getNext());
+                backTrolley.setXY(Vec2D.newAngVec(nextWayPoint, speed - dirBackTrolleyToNextPoint.getLength(), angleFromBackTrolleyToNextPoint));
                 nextWayPoint = nextWayPoint.getNext();
             } else {
-                backTrolley.addAngVec(speed, tempAngle);
+                angleFromBackTrolleyToNextPoint = dirBackTrolleyToNextPoint.getAngle();
+                backTrolley.addAngVec(speed, angleFromBackTrolleyToNextPoint);
             }
 
             //Передняя тележка
-            backForNext = Vec2D.sub(backTrolley, nextWayPoint);
-            if (backForNext.getLength() < LENGTH) {
-                double newTempAngle = Vec2D.scalarProd(backForNext, Vec2D.sub(nextWayPoint.getNext(), nextWayPoint));
-                Vec2D temp = help(nextWayPoint.getNext(), backForNext.getLength(), newTempAngle);
+            dirBackTrolleyToNextPoint = Vec2D.sub(backTrolley, nextWayPoint);
+            if (dirBackTrolleyToNextPoint.getLength() < LENGTH) {
+                double newTempAngle = Vec2D.scalarProd(dirBackTrolleyToNextPoint, Vec2D.sub(nextWayPoint.getNext(), nextWayPoint));
+                Vec2D temp = help(nextWayPoint.getNext(), dirBackTrolleyToNextPoint.getLength(), newTempAngle);
                 frontTrolley.setXY(temp);
             } else {
-                frontTrolley.addAngVec(speed, tempAngle);
+                frontTrolley.addAngVec(speed, angleFromBackTrolleyToNextPoint);
                 //System.out.println();
             }
             angleNow = Vec2D.getAngle(backTrolley, frontTrolley);
@@ -130,6 +134,7 @@ public class Wagon extends Unit {
     public void draw(Drawer drawer) {
         drawer.drawCircle(nextWayPoint, 100, Color.GREEN, 5);
         drawer.drawImage(posNow, img, new Angle(angleNow));
+        drawer.drawString(posNow.clone().subX(100).subY(100), "angle = " + angleNow, 20, Color.BLACK);
         //drawer.drawRect(posNow, new Vec2D(200, 400), new Angle(angleNow), Color.RED, 1);
         drawer.drawCircle(backTrolley, 50, Color.RED, 2);
         drawer.drawCircle(frontTrolley, 50, Color.BLUE, 2);
