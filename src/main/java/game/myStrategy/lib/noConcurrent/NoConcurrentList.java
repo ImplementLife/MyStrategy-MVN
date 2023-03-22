@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class NoConcurrentList<V> {
-    private final List<V> curList;
+    private final List<V> currentList;
     private final List<V> addList;
-    private final List<V> delList;
+    private final List<V> deleteList;
 
     public NoConcurrentList() {
-        curList = new LinkedList<>();
+        currentList = new LinkedList<>();
         addList = new LinkedList<>();
-        delList = new LinkedList<>();
+        deleteList = new LinkedList<>();
     }
 
     public void clear() {
-        curList.clear();
+        currentList.clear();
         addList.clear();
-        delList.clear();
+        deleteList.clear();
     }
 
     public void add(V v) {
@@ -26,21 +26,19 @@ public class NoConcurrentList<V> {
     }
 
     public void remove(V v) {
-        delList.add(v);
+        deleteList.add(v);
     }
 
-    public void forEach(Consumer<? super V> action) {
+    public synchronized void forEach(Consumer<? super V> action) {
         update();
-        synchronized (this) {
-            curList.forEach(action);
-        }
+        currentList.forEach(action);
     }
 
     private void update() {
-        curList.addAll(addList);
+        currentList.addAll(addList);
         addList.clear();
-        curList.removeAll(delList);
-        delList.clear();
+        currentList.removeAll(deleteList);
+        deleteList.clear();
     }
 }
 

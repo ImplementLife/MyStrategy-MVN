@@ -6,13 +6,13 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 
 public class NoConcurrentMap<K extends Comparable<K>, V> {
-    private final TreeMap<K, V> currMap;
+    private final TreeMap<K, V> currentMap;
     private final HashMap<K, V> putMap;
-    private final LinkedList<V> delList;
+    private final LinkedList<V> deleteList;
 
     public NoConcurrentMap() {
-        currMap = new TreeMap<>();
-        delList = new LinkedList<>();
+        currentMap = new TreeMap<>();
+        deleteList = new LinkedList<>();
         putMap = new HashMap<>();
     }
 
@@ -21,34 +21,32 @@ public class NoConcurrentMap<K extends Comparable<K>, V> {
     }
 
     public void remove(V v) {
-        delList.add(v);
+        deleteList.add(v);
     }
 
     public void remove(K k) {
-        remove(currMap.get(k));
+        remove(currentMap.get(k));
     }
 
     public V get(K k) {
-        V v = currMap.get(k);
+        V v = currentMap.get(k);
         if (v == null) v = putMap.get(k);
         return v;
     }
 
-    public void forEach(Consumer<? super V> action) {
+    public synchronized void forEach(Consumer<? super V> action) {
         update();
-        synchronized (this) {
-            currMap.values().forEach(action);
-        }
+        currentMap.values().forEach(action);
     }
 
     public boolean containsKey(K k) {
-        return currMap.containsKey(k) || putMap.containsKey(k);
+        return currentMap.containsKey(k) || putMap.containsKey(k);
     }
 
     private void update() {
-        currMap.putAll(putMap);
+        currentMap.putAll(putMap);
         putMap.clear();
-        for (V v : delList) currMap.remove(v);
-        delList.clear();
+        for (V v : deleteList) currentMap.remove(v);
+        deleteList.clear();
     }
 }
