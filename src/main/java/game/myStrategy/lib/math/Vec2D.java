@@ -1,15 +1,15 @@
 package game.myStrategy.lib.math;
 
+import org.joml.Vector2d;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Vec2D implements Serializable, Cloneable {
-    double x;
-    double y;
+public class Vec2D extends Vector2d implements Serializable, Cloneable {
 
-    //=======================// Конструкторы //=======================//
+    //region Constructors
     public Vec2D() {
         x = 0;
         y = 0;
@@ -24,8 +24,9 @@ public class Vec2D implements Serializable, Cloneable {
     public Vec2D(Dimension vec) {
         this(vec.width, vec.height);
     }
+    //endregion
 
-    //=======================// Акцессоры //=======================//
+    //region Get
     public double getX() {
         return x;
     }
@@ -43,8 +44,14 @@ public class Vec2D implements Serializable, Cloneable {
     public double getLength() {
         return Math.sqrt(x * x + y * y);
     }
+    //endregion
 
-    //===============    Math    ===============//
+    //region Math
+
+    /**
+     * Angle by clockwise
+     * @return value in radians
+     */
     public double getAngle() {
         if (x != 0) {
             if (x > 0) return Math.PI - Math.acos(y / getLength());
@@ -163,7 +170,61 @@ public class Vec2D implements Serializable, Cloneable {
         else return !(x > endPos.x) && !(y > endPos.y);
     }
 
-    //=======================// Мутаторы //=======================//
+//    public Vec2D projectTo(Vec2D vec) {
+//
+//    }
+//    public Vec2D rejectTo(Vec2D vec) {
+//
+//    }
+//    public Vec2D reflectTo(Vec2D vec) {
+//
+//    }
+
+    /**
+     * Angle between vectors
+     * @param vec vector to calculate angle to this
+     * @return value in radians
+     */
+    public double angBtw(Vec2D vec) {
+        return this.angle(vec);
+    }
+
+    public Vec2D project(Vec2D vec) {
+        Vec2D thisNorm = this.normalize();
+
+        double scalarProjLength = vec.dot(thisNorm);
+        Vector2d res = thisNorm.mul(scalarProjLength);
+        return (Vec2D) res;
+    }
+
+    public Vec2D reject(Vec2D vec) {
+        Vec2D project = this.project(vec);
+        return vec.clone().sub(project);
+    }
+//    public Vec2D reflect(Vec2D vec) {
+//
+//    }
+
+    //endregion
+
+    //region Override Vector2d
+
+    @Override
+    public Vec2D normalize() {
+        return (Vec2D) super.normalize(this.clone());
+    }
+
+    //endregion
+
+    //region Setters
+    public Vec2D x(double x) {
+        this.x = x;
+        return this;
+    }
+    public Vec2D y(double y) {
+        this.y = y;
+        return this;
+    }
     public Vec2D setXY(Vec2D vec) {
         x = vec.getX();
         y = vec.getY();
@@ -185,10 +246,11 @@ public class Vec2D implements Serializable, Cloneable {
     public void setY(double y) {
         this.y = y;
     }
+    //endregion
 
-    //=======================// Другие методы //=======================//
+    //region Override Object
     @Override
-    public Vec2D clone()  {
+    public Vec2D clone() {
         return new Vec2D(this);
     }
 
@@ -209,14 +271,17 @@ public class Vec2D implements Serializable, Cloneable {
     public String toString() {
         return "[X: " + x + "; Y: " + y + ";]";
     }
+    //endregion
 
-    //=================// Статические методы класса //=================//
+    //region Static
     /**
      * Нормализация вектора
      * @return new Vec2D();
      */
     public static Vec2D norm(Vec2D vec) {
-        return new Vec2D(vec).antScalar(vec.getLength());
+        Vec2D res = vec.clone();
+        res.normalize();
+        return res;
     }
 
     /**
@@ -334,4 +399,6 @@ public class Vec2D implements Serializable, Cloneable {
         d = (int)(d * 1000);
         return d / 1000;
     }
+    //endregion
+
 }
