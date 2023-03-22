@@ -25,6 +25,8 @@ public class Animation extends GameObject {
         this.delay = new Timer(delay);
         this.images = Resource.getResImageArray().get(PATH + name + SUFFIX);
         this.loop = loop;
+
+        super.enableUpdateDraw();
     }
     public Animation(final Vec2D pos, String name, boolean loop) {
         this(pos, name, 50, loop);
