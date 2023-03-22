@@ -1,4 +1,4 @@
-package game.myStrategy.ui.test;
+package game.myStrategy.test;
 
 public class Line {
 

@@ -1,4 +1,4 @@
-package game.myStrategy.ui.test.reflection;
+package game.myStrategy.test.reflection;
 
 import java.io.File;
 import java.net.URL;
