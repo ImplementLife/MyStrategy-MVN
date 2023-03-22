@@ -46,6 +46,7 @@ public class Bullet extends GameObject {
         this.angle = new Angle(Vec2D.getAngle(pos, posEnd));
         this.speed = 1500;
 
+        super.enableUpdateDraw();
 //        this.image = images.get("resource/bullet/trace_10.png");
     }
     public Bullet(Vec2D pos, Vec2D posEnd, String name) {

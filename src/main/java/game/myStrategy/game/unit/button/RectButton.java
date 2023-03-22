@@ -44,6 +44,11 @@ public class RectButton extends Button {
     }
 
     @Override
+    public Vec2D getPos() {
+        return pos;
+    }
+
+    @Override
     protected void updateState() {
         if (state != ButtonState.PRESSED && Listener.getGlobalMousePos().inRect(pos, pos.clone().add(size))){
             state = ButtonState.FOCUSED;

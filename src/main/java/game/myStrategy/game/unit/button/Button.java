@@ -59,6 +59,7 @@ public abstract class Button extends GameObject {
     }
 
     public abstract void setPos(Vec2D pos);
+    public abstract Vec2D getPos();
     protected abstract void updateState();
 
     /*=======================================*/

@@ -34,6 +34,11 @@ public class RatioButton extends Button {
     }
 
     @Override
+    public Vec2D getPos() {
+        return pos;
+    }
+
+    @Override
     protected void updateState() {
         if (state != ButtonState.PRESSED && Listener.posToMouse(pos).getLength() < radius){
             state = ButtonState.FOCUSED;
