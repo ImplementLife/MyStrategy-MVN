@@ -23,6 +23,10 @@ public class Line {
         this.p2 = p2;
     }
 
+    public double getLength() {
+        return Vec2D.getLength(p1, p2);
+    }
+
     double[] getCoeff() {
         double a = p1.y - p2.y;
         double b = p2.x - p1.x;
