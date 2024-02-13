@@ -94,7 +94,7 @@ public class Control {
         bezierControl.bezierCurve(e);
 
         if (e.isReleased(keys.get("pause"))) UpdateService.get().pause();
-        if (e.isReleased(keys.get("screenshot"))) GameDrawService.screenshot = true;
+        if (e.isReleased(keys.get("screenshot"))) GameDrawService.takeScreenshot();
 
         if (e.isReleased(keys.get("v"))) {
 //            Генерация анимации взрыва

@@ -16,9 +16,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static game.myStrategy.game.context.Context.context;
-import static game.myStrategy.lib.myFormatString.MyFormatString.date;
 
 public final class GameDrawService {
     //region Static
@@ -99,54 +101,68 @@ public final class GameDrawService {
             threadManager = ThreadManager.get();
             threadManager.drawMap.setExe(() -> drawerMap.draw());
             threadManager.drawObj.setExe(() -> context().getDrawService().iterate(painterObj));
-            threadManager.drawFinal.setExe(() -> {
-                finalDrawerImpl.fillRect(new Vec2D(), size, Color.GRAY, new Angle(0));
-                finalDrawerImpl.drawImage(new Vec2D(), painterMap.getImage());
-                finalDrawerImpl.drawImage(new Vec2D(), painterObj.getImage());
-                this.screenshot();
-
-                camera.getCurrentScale();
-
-                if (timer.startF()) {
-                    data = new String[] {
-                            "UPS thread Map = " + threadManager.drawMap.getEPS(),
-                            "UPS thread Obj = " + threadManager.drawObj.getEPS(),
-                            "UPS thread Update = " + UpdateService.get().getEPS(),
-                            "",
-                            "camera.scale = " + camera.getCurrentScale(),
-                            "camera.firstPos = " + camera.getFirstPos(),
-                            "camera.endPos = " + camera.getEndPos(),
-                            "camera.size = " + camera.getSize(),
-                    };
-                }
-
-                finalDrawerImpl.drawString(new Vec2D(), data, 16, Color.YELLOW);
-
-                drawerJPanel.draw();
-
-                painterMap.dispose();
-                painterObj.dispose();
-                camera.update();
-            });
+            threadManager.drawFinal.setExe(() -> finalDraw(timer));
             try { Thread.sleep(1); } catch (InterruptedException ignore) {}
             threadManager.start();
         }
     }
 
-    /*=======================================================*/
-    private static String data[] = new String[0];
-    public static boolean screenshot;
+    private void finalDraw(Timer timer) {
+        finalDrawerImpl.fillRect(new Vec2D(), size, Color.GRAY, new Angle(0));
+        finalDrawerImpl.drawImage(new Vec2D(), painterMap.getImage());
+        finalDrawerImpl.drawImage(new Vec2D(), painterObj.getImage());
+        this.screenshot();
 
+        camera.getCurrentScale();
+
+        if (timer.startF()) {
+            devInfoData = new String[] {
+                    "UPS thread Map = " + threadManager.drawMap.getEPS(),
+                    "UPS thread Obj = " + threadManager.drawObj.getEPS(),
+                    "UPS thread Update = " + UpdateService.get().getEPS(),
+                    "",
+                    "camera.scale = " + camera.getCurrentScale(),
+                    "camera.firstPos = " + camera.getFirstPos(),
+                    "camera.endPos = " + camera.getEndPos(),
+                    "camera.size = " + camera.getSize(),
+            };
+        }
+
+        finalDrawerImpl.drawString(new Vec2D(), devInfoData, 16, Color.YELLOW);
+
+        drawerJPanel.draw();
+
+        painterMap.dispose();
+        painterObj.dispose();
+        camera.update();
+    }
+
+    /*=======================================================*/
+    private static String devInfoData[] = new String[0];
+
+    private static boolean takeScreenshot;
+    public static void takeScreenshot() {
+        takeScreenshot = true;
+    }
     private void screenshot() {
-        if (screenshot) {
-            String str = "resource/images/scr/" + date();
-            try {
-                File f = new File(str + "scr.png");
-                ImageIO.write(finalDrawerImpl.getImage(), "PNG", f);
-            } catch(Exception e) {
-                e.printStackTrace();
+        if (takeScreenshot) {
+            String directoryName = "screenshots/";
+            File directory = new File(directoryName);
+            if (!directory.exists()) {
+                directory.mkdirs();
             }
-            screenshot = false;
+
+            String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh-mm-ss"));
+            String fileName = directoryName + "screenshot_" + timeStamp + ".png";
+
+            try {
+                File file = new File(fileName);
+                ImageIO.write(finalDrawerImpl.getImage(), "PNG", file);
+            } catch (IOException e) {
+                System.err.println("Failed to save screenshot: " + e.getMessage());
+            }
+
+            takeScreenshot = false;
         }
     }
 
