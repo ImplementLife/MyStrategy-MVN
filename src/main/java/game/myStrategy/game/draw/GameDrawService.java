@@ -152,7 +152,7 @@ public final class GameDrawService {
                 directory.mkdirs();
             }
 
-            String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy hh-mm-ss"));
+            String timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH-mm-ss"));
             String fileName = directoryName + "screenshot_" + timeStamp + ".png";
 
             try {
