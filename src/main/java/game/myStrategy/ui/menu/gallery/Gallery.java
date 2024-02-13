@@ -1,5 +1,7 @@
 package game.myStrategy.ui.menu.gallery;
 
+import com.intellij.uiDesigner.core.GridLayoutManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,7 +24,7 @@ public class Gallery {
      */
     private void $$$setupUI$$$() {
         root = new JPanel();
-        root.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        root.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
     }
 
     /**
@@ -31,4 +33,5 @@ public class Gallery {
     public JComponent $$$getRootComponent$$$() {
         return root;
     }
+
 }
