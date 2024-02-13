@@ -36,6 +36,12 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -52,7 +58,7 @@
                             <appendAssemblyId>false</appendAssemblyId>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.implementLife.client.Boot</mainClass>
+                                    <mainClass>game.myStrategy.Boot</mainClass>
                                 </manifest>
                                 <manifestEntries>
                                     <Multi-Release>true</Multi-Release>
