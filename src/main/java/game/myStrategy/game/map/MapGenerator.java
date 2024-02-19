@@ -2,26 +2,18 @@ package game.myStrategy.game.map;
 
 import game.myStrategy.lib.math.Vec2D;
 
-import java.io.*;
 import java.util.ArrayList;
 
-public final class MapGenerator /*implements Serializable*/ {
-//    private static final long serialVersionUID = 1019931704136383438L;
-
-    /**
-     * Не статические поля нужны для сериализации
-     */
+public final class MapGenerator {
     private ArrayList<ArrayList<Tile>> tileMap;
-
-    private static long seed;
     private static Vec2D size;
     private static ArrayList<Vec2D> sub = new ArrayList<>();
 
     private MapGenerator(long seed, Vec2D size) {
-        MapGenerator.seed = seed;
         MapGenerator.size = new Vec2D(size);
         tileMap = new ArrayList<>();
-        for (ArrayList<Double> d : PerlinNoise2D.getHeightMap(size, seed)){
+        PerlinNoise perlinNoise = new PerlinNoise(seed);
+        for (ArrayList<Double> d : perlinNoise.getHeightMap(size)) {
             ArrayList<Tile> tiles = new ArrayList<>();
             for (Double d2 : d) tiles.add(new Tile(d2));
             tileMap.add(tiles);
@@ -60,8 +52,8 @@ public final class MapGenerator /*implements Serializable*/ {
         type[4] = tile.getType();
 
         int i = 0;
-        for (int X = pos.getIntX()-1; X <= pos.getIntX() + 1; X++) {
-            for (int Y = pos.getIntY()-1; Y <= pos.getIntY() + 1; Y++) {
+        for (int X = pos.getIntX() - 1; X <= pos.getIntX() + 1; X++) {
+            for (int Y = pos.getIntY() - 1; Y <= pos.getIntY() + 1; Y++) {
                 if ((X != pos.getIntX() || Y != pos.getIntY())) {
                     tiles[i] = new Vec2D(X, Y);
                     type[i] = map.getType(tiles[i]);
@@ -127,7 +119,6 @@ public final class MapGenerator /*implements Serializable*/ {
     }
 
     //======================== Другие методы ========================//
-
     public static MapGenerator map;
 
     /**
@@ -141,32 +132,16 @@ public final class MapGenerator /*implements Serializable*/ {
     public static Tile getTile(Vec2D pos) {
         return map.tileMap.get(pos.getIntX()).get(pos.getIntY());
     }
-    public static TypeTile getType(Vec2D pos) {
+
+    private static TypeTile getType(Vec2D pos) {
         return map.tileMap.get(pos.getIntX()).get(pos.getIntY()).getType();
     }
-    public static double getHeight(Vec2D pos) {
+
+    private static double getHeight(Vec2D pos) {
         return map.tileMap.get(pos.getIntX()).get(pos.getIntY()).getHeight();
     }
 
     public static Vec2D getSize() {
         return size;
-    }
-
-    /**
-     * Метод для сохранения карты в файл
-     */
-    public static void save(String path) throws IOException {
-        ObjectOutputStream saveObject = new ObjectOutputStream(new FileOutputStream(path));
-        saveObject.writeObject(map);
-        saveObject.close();
-    }
-
-    /**
-     * Метод для загрузки карты из файла
-     */
-    public static void load(String path) throws IOException, ClassNotFoundException {
-        ObjectInputStream loadObject = new ObjectInputStream(new FileInputStream(path));
-        map = (MapGenerator) loadObject.readObject();
-        loadObject.close();
     }
 }
