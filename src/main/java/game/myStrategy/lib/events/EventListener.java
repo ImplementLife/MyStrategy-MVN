@@ -14,7 +14,7 @@ public class EventListener<T> {
     public void processingEvent(T e) {
         execute.accept(e);
     }
-    public void remove() {
+    public void unsubscribe() {
         eventSander.remove(this);
     }
 }

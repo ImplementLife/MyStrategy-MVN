@@ -1,5 +1,7 @@
 package game.myStrategy.game.objects;
 
+import game.myStrategy.Boot;
+import game.myStrategy.game.audio.AudioService;
 import game.myStrategy.game.context.Context;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.update.Update;
@@ -15,6 +17,7 @@ public class GameObject implements Comparable<Object>, Update {
     private boolean deleted;
     private boolean canUpdate;
     private UpdateService updateService;
+    private AudioService audioService;
 
     protected Context context;
     private Call<GameObject> draw;
@@ -26,6 +29,8 @@ public class GameObject implements Comparable<Object>, Update {
         this.type = type;
         this.id = context.getIdService().getId(type);
         this.draw = context.getDrawService().get(this);
+        updateService = Boot.getBean(UpdateService.class);
+        updateService.put(this);
     }
     //endregion
 
@@ -76,7 +81,7 @@ public class GameObject implements Comparable<Object>, Update {
 
     @Override
     public boolean isCanUpdate() {
-        return false;
+        return canUpdate;
     }
     //endregion
 

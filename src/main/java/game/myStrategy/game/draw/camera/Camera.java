@@ -1,5 +1,6 @@
 package game.myStrategy.game.draw.camera;
 
+import game.myStrategy.Boot;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
@@ -17,7 +18,7 @@ public class Camera {
     private static Vec2D sizeFrame;
 
     public static Vec2D getSizeFrame() {
-        if (sizeFrame == null) sizeFrame = new Vec2D(FrameController.get().getFrameSize());
+        if (sizeFrame == null) sizeFrame = new Vec2D(Boot.getBean(FrameController.class).getFrameSize());
         return sizeFrame;
     }
 

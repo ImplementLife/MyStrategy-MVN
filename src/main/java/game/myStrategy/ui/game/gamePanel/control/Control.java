@@ -30,8 +30,6 @@ import static game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener.get
 @Component
 @Scope("singleton")
 public class Control {
-    private static final Logger logger = LogManager.getLogger(Control.class);
-
     @Autowired
     private FrameController frameController;
     @Autowired
@@ -63,7 +61,7 @@ public class Control {
     }
     public void disabled() {
         enabled = false;
-        UIEventListener.remove();
+        UIEventListener.unsubscribe();
     }
 
     private void loadConf() {

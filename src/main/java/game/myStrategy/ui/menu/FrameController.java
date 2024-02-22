@@ -1,15 +1,14 @@
 package game.myStrategy.ui.menu;
 
-import game.myStrategy.Boot;
-import game.myStrategy.game.resource.ResourceService;
-import game.myStrategy.lib.events.EventBus;
-import game.myStrategy.ui.game.gamePanel.control.Control;
+import game.myStrategy.game.GameService;
 import game.myStrategy.game.draw.GameDrawService;
+import game.myStrategy.game.resource.ResourceService;
 import game.myStrategy.game.update.UpdateService;
+import game.myStrategy.lib.events.EventBus;
 import game.myStrategy.ui.Frame;
 import game.myStrategy.ui.game.cursor.CursorService;
-import game.myStrategy.game.GameService;
 import game.myStrategy.ui.game.gamePanel.GamePanel;
+import game.myStrategy.ui.game.gamePanel.control.Control;
 import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.menu.mainMenu.MainMenu;
@@ -22,14 +21,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
 
-import static game.myStrategy.game.context.Context.context;
-
 @Component
 @Scope("singleton")
 public class FrameController {
-    public static FrameController get() {
-        return Boot.getBean(FrameController.class);
-    }
     @Autowired
     private UpdateService updateService;
     @Autowired

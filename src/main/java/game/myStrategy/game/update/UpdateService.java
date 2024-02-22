@@ -39,6 +39,9 @@ public final class UpdateService {
         return dt;
     }
 
+    public void put(GameObject gameObject) {
+        obj.add(gameObject);
+    }
     public void delete(GameObject gameObject) {
         obj.remove(gameObject);
     }

@@ -1,5 +1,6 @@
 package game.myStrategy.game.unit.button;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.math.Vec2D;
@@ -41,7 +42,7 @@ public abstract class Button extends GameObject {
     /*=======================================*/
     public Button() {
         super(TYPE);
-        UIEventListener = FrameController.get().registerListener(e -> {
+        UIEventListener = Boot.getBean(FrameController.class).registerListener(e -> {
             if (visible) {
                 if (e.isReleased()) {
                     if (e.isKeyCode(MouseKeyCode.LEFT_MOUSE_BUTTON)) setFocus();
