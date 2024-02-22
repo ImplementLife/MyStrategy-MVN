@@ -1,5 +1,6 @@
 package game.myStrategy.ui.game.gamePanel;
 
+import game.myStrategy.lib.events.EventBus;
 import game.myStrategy.ui.game.gamePanel.events.UIEventSander;
 import game.myStrategy.ui.game.gamePanel.listener.KeyListener;
 import game.myStrategy.ui.game.gamePanel.listener.MouseListener;
@@ -18,14 +19,15 @@ public class GamePanel extends JPanel {
     private MouseMotionListener mouseMotionListener;
     private MouseWheelListener mouseWheelListener;
 
-    public GamePanel() {
+    public GamePanel(EventBus eventBus) {
         super();
-
         this.eventSander = new UIEventSander();
         addKeyListener(new KeyListener(eventSander));
         addMouseListener(new MouseListener(eventSander));
         addMouseMotionListener(new MouseMotionListener(eventSander));
         addMouseWheelListener(new MouseWheelListener(eventSander));
+
+//        eventBus.regSender("UIEvents", eventSander);
 
         setBackground(new Color(139, 136, 136));
     }

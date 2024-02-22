@@ -3,7 +3,7 @@ package game.myStrategy.ui.game.gamePanel.control;
 import game.myStrategy.Boot;
 import game.myStrategy.game.draw.GameDrawService;
 import game.myStrategy.game.draw.camera.Camera;
-import game.myStrategy.game.unit.squads.SquadFabric;
+import game.myStrategy.game.objects.GameObjectFactory;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.draw.FX.Animation.Animation;
 import game.myStrategy.lib.events.EventBus;
@@ -36,6 +36,8 @@ public class Control {
     private UpdateService updateService;
     @Autowired
     private EventBus eventBus;
+    @Autowired
+    private GameObjectFactory gameObjectFactory;
 
     public static Control get() {
         return Boot.getBean(Control.class);
@@ -110,20 +112,20 @@ public class Control {
 
         {
             if (ev.isReleased("newTankSquad")) {
-                SquadFabric.createTankSquad(mousePos, 2, 200, 0);
+                gameObjectFactory.createTankSquad(mousePos, 2, 200, 0);
             }
             if (ev.isReleased("newTankSquadEnemy")) {
-                SquadFabric.createTankSquad(mousePos.addX(400), 2, 200, 1);
+                gameObjectFactory.createTankSquad(mousePos.addX(400), 2, 200, 1);
             }
             if (ev.isReleased("newPersonSquad")) {
-                SquadFabric.createHumanSquad(mousePos, 10, 200, 0);
+                gameObjectFactory.createHumanSquad(mousePos, 10, 200, 0);
             }
             if (ev.isReleased("newPersonSquadEnemy")) {
-                SquadFabric.createHumanSquad(mousePos, 10, 200, 1);
+                gameObjectFactory.createHumanSquad(mousePos, 10, 200, 1);
             }
         }
 
-        bezierControl.bezierCurve(e);
+        getBezierControl().bezierCurve(e);
 
         if (ev.isReleased("pause")) updateService.pause();
         if (ev.isReleased("screenshot")) gameDrawService.takeScreenshot();

@@ -10,6 +10,8 @@ import game.myStrategy.ui.game.gamePanel.GamePanel;
 import game.myStrategy.ui.game.gamePanel.control.Control;
 import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
+import game.myStrategy.ui.game.gamePanel.events.UIEventSander;
+import game.myStrategy.ui.game.gamePanel.listener.KeyListener;
 import game.myStrategy.ui.menu.GameMenu;
 import game.myStrategy.ui.menu.mainMenu.MainMenu;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.function.Consumer;
 
 @Component
@@ -60,7 +63,7 @@ public class FrameController {
     }
 
     public void startNewGame() {
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(eventBus);
         frame.setPanel(gamePanel);
         CursorService.get().setPanel(gamePanel);
         //==========================================//
@@ -68,7 +71,7 @@ public class FrameController {
         gameService.createMap();
         gameDrawService.start(gamePanel);
         gamePanel.setFocus();
-        gameService.addUnit();
+        gameService.addSomeUnits();
         updateService.start();
         control.enabled();
     }
@@ -87,6 +90,15 @@ public class FrameController {
         frame.setPanel(root);
 
         control.disabled();
+        UIEventSander uiEventSander = new UIEventSander();
+        root.addKeyListener(new KeyListener(uiEventSander));
+        uiEventSander.registerListener(uiEvent -> {
+            if (uiEvent.isReleased(KeyEvent.VK_ESCAPE)) {
+                unshodGameMenu();
+            }
+        });
+        root.setFocusable(true);
+        root.requestFocus();
     }
     public void unshodGameMenu() {
         frame.setPanel(gamePanel);

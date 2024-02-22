@@ -8,6 +8,7 @@ import game.myStrategy.game.update.Update;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.CallManager.Call;
 import game.myStrategy.lib.draw.drawer.Drawer;
+import game.myStrategy.lib.events.EventBus;
 import game.myStrategy.lib.threads.bt.DT;
 
 public class GameObject implements Comparable<Object>, Update {
@@ -107,6 +108,10 @@ public class GameObject implements Comparable<Object>, Update {
     @Override
     public String toString() {
         return id.toString();
+    }
+
+    public void processEventBus(EventBus eventBus) {
+
     }
     //endregion
 }

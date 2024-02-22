@@ -52,7 +52,4 @@ public class Context {
     public IdService getIdService() {
         return idService;
     }
-    public UpdateService getUpdateService() {
-        return updateService;
-    }
 }
