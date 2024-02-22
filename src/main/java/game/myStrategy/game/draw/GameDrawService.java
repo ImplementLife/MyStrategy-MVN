@@ -34,10 +34,15 @@ public final class GameDrawService {
     private EventBus eventBus;
     @Autowired
     private UpdateService updateService;
+    private boolean pause;
 
     //region Static
     public void start(JPanel panel) {
         init(panel);
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
     }
 
     public Camera getCamera() {
@@ -135,7 +140,7 @@ public final class GameDrawService {
 
         finalDrawerImpl.drawString(new Vec2D(), devInfoData, 16, Color.YELLOW);
 
-        drawerJPanel.draw();
+        if (!pause) drawerJPanel.draw();
 
         painterMap.dispose();
         painterObj.dispose();

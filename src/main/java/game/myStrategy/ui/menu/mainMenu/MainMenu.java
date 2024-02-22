@@ -3,7 +3,7 @@ package game.myStrategy.ui.menu.mainMenu;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import game.myStrategy.ui.menu.FrameController;
+import game.myStrategy.ui.FrameController;
 import game.myStrategy.ui.menu.settingsMenu.SettingsMenu;
 
 import javax.swing.*;
@@ -35,6 +35,9 @@ public class MainMenu {
         exit.setFocusable(false);
         workshop.setFocusable(false);
         gallery.setFocusable(false);
+
+        workshop.setEnabled(false);
+        gallery.setEnabled(false);
 
         //endregion
 
@@ -71,7 +74,7 @@ public class MainMenu {
         Font label1Font = this.$$$getFont$$$("Source Code Pro", Font.BOLD | Font.ITALIC, 48, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setForeground(new Color(-5840495));
-        label1.setText("My Strategy");
+        label1.setText("IL Strategy");
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         exit = new JButton();
         exit.setBackground(new Color(-10461088));
@@ -79,7 +82,7 @@ public class MainMenu {
         if (exitFont != null) exit.setFont(exitFont);
         exit.setForeground(new Color(-5987164));
         exit.setHideActionText(false);
-        exit.setText("Выход");
+        exit.setText("Вихід");
         exit.putClientProperty("hideActionText", Boolean.FALSE);
         exit.putClientProperty("html.disable", Boolean.TRUE);
         panel1.add(exit, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(500, 50), null, null, 0, false));
@@ -91,7 +94,7 @@ public class MainMenu {
         if (startFont != null) start.setFont(startFont);
         start.setForeground(new Color(-5987164));
         start.setHideActionText(false);
-        start.setText("Начать");
+        start.setText("Почати");
         start.putClientProperty("hideActionText", Boolean.FALSE);
         start.putClientProperty("html.disable", Boolean.TRUE);
         panel1.add(start, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(500, 50), null, null, 0, false));
@@ -101,7 +104,7 @@ public class MainMenu {
         if (settingsFont != null) settings.setFont(settingsFont);
         settings.setForeground(new Color(-5987164));
         settings.setHideActionText(false);
-        settings.setText("Настройки");
+        settings.setText("Налаштування");
         settings.putClientProperty("hideActionText", Boolean.FALSE);
         settings.putClientProperty("html.disable", Boolean.TRUE);
         panel1.add(settings, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(500, 50), null, null, 0, false));
@@ -111,7 +114,7 @@ public class MainMenu {
         if (workshopFont != null) workshop.setFont(workshopFont);
         workshop.setForeground(new Color(-5987164));
         workshop.setHideActionText(false);
-        workshop.setText("Мастерская техники");
+        workshop.setText("Майстерня");
         workshop.putClientProperty("hideActionText", Boolean.FALSE);
         workshop.putClientProperty("html.disable", Boolean.TRUE);
         panel1.add(workshop, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, new Dimension(500, 50), null, null, 0, false));
@@ -163,4 +166,5 @@ public class MainMenu {
     public JComponent $$$getRootComponent$$$() {
         return root;
     }
+
 }

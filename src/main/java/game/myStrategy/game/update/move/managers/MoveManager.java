@@ -8,7 +8,7 @@ import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
-import game.myStrategy.ui.menu.FrameController;
+import game.myStrategy.ui.FrameController;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;

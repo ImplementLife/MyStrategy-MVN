@@ -11,9 +11,7 @@ import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
-import game.myStrategy.ui.menu.FrameController;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import game.myStrategy.ui.FrameController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -105,7 +103,9 @@ public class Control {
         }
         Ev ev = new Ev();
 
-        if (ev.isReleased("exit")) System.exit(0);
+        if (ev.isReleased("exit")) {
+            frameController.showGameMenu();
+        }
         Vec2D mousePos = getGlobalMousePos().clone();
 
         {

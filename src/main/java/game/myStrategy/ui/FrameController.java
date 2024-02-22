@@ -1,16 +1,16 @@
-package game.myStrategy.ui.menu;
+package game.myStrategy.ui;
 
 import game.myStrategy.game.GameService;
 import game.myStrategy.game.draw.GameDrawService;
 import game.myStrategy.game.resource.ResourceService;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.events.EventBus;
-import game.myStrategy.ui.Frame;
 import game.myStrategy.ui.game.cursor.CursorService;
 import game.myStrategy.ui.game.gamePanel.GamePanel;
 import game.myStrategy.ui.game.gamePanel.control.Control;
 import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
+import game.myStrategy.ui.menu.GameMenu;
 import game.myStrategy.ui.menu.mainMenu.MainMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -75,5 +75,24 @@ public class FrameController {
 
     public Dimension getFrameSize() {
         return frame.getSize();
+    }
+
+    public void showGameMenu() {
+        GameMenu gameMenu = new GameMenu(this);
+        JPanel root = gameMenu.getRoot();
+
+        updateService.pause();
+        gameDrawService.setPause(true);
+
+        frame.setPanel(root);
+
+        control.disabled();
+    }
+    public void unshodGameMenu() {
+        frame.setPanel(gamePanel);
+        updateService.pause();
+        gameDrawService.setPause(false);
+        control.enabled();
+        gamePanel.setFocus();
     }
 }

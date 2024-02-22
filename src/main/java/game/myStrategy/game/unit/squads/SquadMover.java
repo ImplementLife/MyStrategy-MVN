@@ -7,7 +7,7 @@ import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
-import game.myStrategy.ui.menu.FrameController;
+import game.myStrategy.ui.FrameController;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;

@@ -7,7 +7,7 @@ import game.myStrategy.ui.game.cursor.CursorService;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
-import game.myStrategy.ui.menu.FrameController;
+import game.myStrategy.ui.FrameController;
 
 import static game.myStrategy.game.unit.Unit.units;
 
