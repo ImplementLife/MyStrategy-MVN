@@ -1,7 +1,10 @@
 package game.myStrategy.game.net;
 
-import game.myStrategy.game.context.InContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public class NetService extends InContext {
+@Component
+@Scope("singleton")
+public class NetService {
 
 }

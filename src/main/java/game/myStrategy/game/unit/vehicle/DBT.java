@@ -1,5 +1,7 @@
 package game.myStrategy.game.unit.vehicle;
 
+import game.myStrategy.lib.threads.bt.DT;
+
 /**
  * Dependence Body-Turret
  */
@@ -32,18 +34,18 @@ public class DBT {
         return rTurret.getAngleNow();
     }
 
-    public void update() {
-        if (turretRotate) rotateTurret();
-        if (bodyRotate) rotateBody();
+    public void update(DT dt) {
+        if (turretRotate) rotateTurret(dt);
+        if (bodyRotate) rotateBody(dt);
     }
 
-    private void rotateBody() {
+    private void rotateBody(DT dt) {
         float temp = rBody.getAngleNow();
-        if (rBody.rotate()) bodyRotate = false;
+        if (rBody.rotate(dt)) bodyRotate = false;
         rTurret.setAngleNow(rTurret.getAngleNow() + rBody.getAngleNow() - temp);
     }
-    private void rotateTurret() {
-        if (rTurret.rotate() && !bodyRotate) turretRotate = false;
+    private void rotateTurret(DT dt) {
+        if (rTurret.rotate(dt) && !bodyRotate) turretRotate = false;
     }
 
     public boolean isBodyRotate() {

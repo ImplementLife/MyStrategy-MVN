@@ -5,6 +5,7 @@ import game.myStrategy.game.unit.Unit;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,7 +68,7 @@ public class Car extends Unit {
     }
 
     @Override
-    public void update() {
+    public void update(DT dt) {
         help();
         help2();
         pos.setXY(Vec2D.newAngVec(pos, speed, angle));

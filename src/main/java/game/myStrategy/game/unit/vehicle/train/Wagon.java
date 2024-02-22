@@ -1,5 +1,6 @@
 package game.myStrategy.game.unit.vehicle.train;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.draw.GameDrawService;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
@@ -8,6 +9,7 @@ import game.myStrategy.game.unit.button.Button;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,7 +90,7 @@ public class Wagon extends Unit {
             angleNow = Vec2D.getAngle(backTrolley, frontTrolley);
             posNow.setXY(Vec2D.newAngVec(backTrolley, LENGTH/2, angleNow));
         }
-        if (t) GameDrawService.getCamera().tracking(Vec2D.newAngVec(new Vec2D(), speed, angleNow));
+        if (t) Boot.getBean(GameDrawService.class).getCamera().tracking(Vec2D.newAngVec(new Vec2D(), speed, angleNow));
     }
 
     private Vec2D help(Vec2D dir, double length, double angle) {
@@ -120,7 +122,7 @@ public class Wagon extends Unit {
     }
 
     @Override
-    public void update() {
+    public void update(DT dt) {
         move();
         button.setPos(posNow);
     }

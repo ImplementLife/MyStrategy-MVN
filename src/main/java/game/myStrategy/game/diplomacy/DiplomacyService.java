@@ -1,8 +1,11 @@
 package game.myStrategy.game.diplomacy;
 
-import game.myStrategy.game.context.InContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public class DiplomacyService extends InContext {
+@Component
+@Scope("singleton")
+public class DiplomacyService {
     private Diplomacy diplomacy;
     public Diplomacy getDiplomacy() {
         if (diplomacy == null) diplomacy =  new Diplomacy();

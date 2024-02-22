@@ -1,6 +1,9 @@
 package game.myStrategy.game.audio;
 
-import game.myStrategy.game.context.InContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public class AudioService extends InContext {
+@Component
+@Scope("singleton")
+public class AudioService {
 }

@@ -1,6 +1,9 @@
 package game.myStrategy.game.map;
 
-import game.myStrategy.game.context.InContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public class MapService extends InContext {
+@Component
+@Scope("singleton")
+public class MapService {
 }

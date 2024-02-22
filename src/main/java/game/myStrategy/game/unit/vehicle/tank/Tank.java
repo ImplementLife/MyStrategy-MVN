@@ -7,6 +7,7 @@ import game.myStrategy.game.unit.vehicle.Element;
 import game.myStrategy.game.update.move.Mover;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import javax.swing.*;
 import java.awt.*;
@@ -112,9 +113,9 @@ public class Tank extends Unit {
     //region Obj Overrides
 
     @Override
-    public void update() {
-        super.update();
-        mover.update();
+    public void update(DT dt) {
+        super.update(dt);
+        mover.update(dt);
         posTurretNow.setAngVec(posNow, lTurret, dbt.getAngleBody());
         body.setAngle(dbt.getAngleBody());
         turret.setAngle(dbt.getAngleTurret());

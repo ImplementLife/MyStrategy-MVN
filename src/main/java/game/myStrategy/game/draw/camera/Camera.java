@@ -12,8 +12,8 @@ import java.awt.geom.AffineTransform;
 public class Camera {
     //region Static
 
-    private static final Vec2D mousePos = game.myStrategy.ui.game.gamePanel.listener.Listener.getMousePos();
-    private static final Vec2D globalMousePos = game.myStrategy.ui.game.gamePanel.listener.Listener.getGlobalMousePos();
+    private static final Vec2D mousePos = game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener.getMousePos();
+    private static final Vec2D globalMousePos = game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener.getGlobalMousePos();
     private static Vec2D sizeFrame;
 
     public static Vec2D getSizeFrame() {
@@ -24,24 +24,6 @@ public class Camera {
     //endregion
 
     //region Fields
-
-    private final UIEventListener UIEventListener = FrameController.get().registerListener(e -> {
-        if (e.isPressed()) {
-            if (e.isKeyCode(KeyEvent.VK_W)) moveUp = true;
-            if (e.isKeyCode(KeyEvent.VK_S)) moveDown = true;
-            if (e.isKeyCode(KeyEvent.VK_A)) moveLeft = true;
-            if (e.isKeyCode(KeyEvent.VK_D)) moveRight = true;
-        } else if (e.isReleased()) {
-            if (e.isKeyCode(KeyEvent.VK_W)) moveUp = false;
-            if (e.isKeyCode(KeyEvent.VK_S)) moveDown = false;
-            if (e.isKeyCode(KeyEvent.VK_A)) moveLeft = false;
-            if (e.isKeyCode(KeyEvent.VK_D)) moveRight = false;
-
-            if (e.isKeyCode(KeyEvent.VK_ALT)) {
-                if (e.isKeyCode(MouseKeyCode.RIGHT_MOUSE_BUTTON)) moveTo(globalMousePos);
-            }
-        }
-    });
     public final Vec2D firstPos;
     public final Vec2D endPos;
     public final Vec2D size;
@@ -208,8 +190,21 @@ public class Camera {
 
     //endregion
 
-    private void moveTo(Vec2D pos) {
+    public void moveTo(Vec2D pos) {
         mover.moveTo(pos);
+    }
+
+    public void moveUp(boolean moveUp) {
+        this.moveUp = moveUp;
+    }
+    public void moveDown(boolean moveDown) {
+        this.moveDown = moveDown;
+    }
+    public void moveLeft(boolean moveLeft) {
+        this.moveLeft = moveLeft;
+    }
+    public void moveRight(boolean moveRight) {
+        this.moveRight = moveRight;
     }
 
     public Vec2D posOnCamera(Vec2D pos) {

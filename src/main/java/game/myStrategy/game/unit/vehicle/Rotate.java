@@ -1,8 +1,7 @@
 package game.myStrategy.game.unit.vehicle;
 
 import game.myStrategy.lib.math.Angle;
-
-import static game.myStrategy.game.update.UpdateService.dt;
+import game.myStrategy.lib.threads.bt.DT;
 
 public class Rotate {
     //==========     Static     =============//
@@ -27,12 +26,12 @@ public class Rotate {
         this.angleEnd = angleEnd;
     }
 
-    public boolean rotate(float angleEnd) {
+    public boolean rotate(DT dt, float angleEnd) {
         setAngleEnd(angleEnd);
-        return rotate();
+        return rotate(dt);
     }
 
-    public boolean rotate() {
+    public boolean rotate(DT dt) {
         if (dt.scalar(speed) > Math.abs(angleNow - angleEnd)) {
             angleNow = angleEnd;
             return true;

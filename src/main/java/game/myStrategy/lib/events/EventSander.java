@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 
 public class EventSander<T> {
     protected final NoConcurrentList<EventListener<T>> listeners = new NoConcurrentList<>();
-//    protected final HashSet<EventListener<T>> listeners = new HashSet<>();
 
     public void addEvent(T e) {
         listeners.forEach(l -> l.processingEvent(e));

@@ -1,5 +1,6 @@
 package game.myStrategy.game.unit.squads;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.lib.draw.FX.Arrow;
 import game.myStrategy.lib.math.Angle;
@@ -14,7 +15,7 @@ import java.util.Queue;
 
 public class SquadMover {
     private static boolean shift, rightB;
-    private static final UIEventListener EVENT_LISTENER = FrameController.get().registerListener(e -> {
+    private static final UIEventListener EVENT_LISTENER = Boot.getBean(FrameController.class).registerListener(e -> {
         if (e.isClicked(MouseKeyCode.LEFT_MOUSE_BUTTON)) {
             if (Squad.squadsInFocus().size() > 0) rightB = true;
         }

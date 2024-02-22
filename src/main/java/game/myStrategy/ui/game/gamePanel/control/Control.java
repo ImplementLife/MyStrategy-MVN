@@ -1,37 +1,52 @@
 package game.myStrategy.ui.game.gamePanel.control;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.draw.GameDrawService;
+import game.myStrategy.game.draw.camera.Camera;
 import game.myStrategy.game.unit.squads.SquadFabric;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.draw.FX.Animation.Animation;
-import game.myStrategy.ui.game.gamePanel.events.Event;
+import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
+import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
 import game.myStrategy.ui.menu.FrameController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener.getGlobalMousePos;
+
 /* TODO Продумать и реализовать реакции на комбинации клавиш */
+@Component
+@Scope("singleton")
 public class Control {
-    //region Singleton
-    private static Control instance;
+    @Autowired
+    private FrameController frameController;
+    @Autowired
+    private GameDrawService gameDrawService;
+    @Autowired
+    private UpdateService updateService;
+
     public static Control get() {
-        if (instance == null) instance = new Control();
-        return instance;
+        return Boot.getBean(Control.class);
     }
-    private Control() {
-        UIEventListener = FrameController.get().registerListener(this::update);
+
+    @PostConstruct
+    private void postConstruct() {
+        UIEventListener = frameController.registerListener(this::update);
         loadConf();
         bezierControl = new BezierControl(keys);
     }
-    //endregion
 
     private Map<String, Integer> keys;
-    private final UIEventListener UIEventListener;
+    private UIEventListener UIEventListener;
     private boolean enabled;
 
     public void enabled() {
@@ -65,49 +80,78 @@ public class Control {
 
     public BezierControl bezierControl;
 
-    protected void update(Event e) {
+    protected void update(UIEvent e) {
         if(!enabled) return;
 
         class Ev {
-            final Event event = e;
+            final UIEvent event = e;
+            boolean isPressed(String s) {
+                return event.isPressed(keys.get(s));
+            }
             boolean isReleased(String s) {
                 return event.isReleased(keys.get(s));
+            }
+            boolean isClicked(String s) {
+                return event.isClicked(keys.get(s));
             }
         }
         Ev ev = new Ev();
 
         if (ev.isReleased("exit")) System.exit(0);
+        Vec2D mousePos = getGlobalMousePos().clone();
 
-        if (ev.isReleased("newTankSquad")) {
-            SquadFabric.createTankSquad(Listener.getGlobalMousePos().clone(), 2, 200, 0);
-        }
-        if (ev.isReleased("newTankSquadEnemy")) {
-            SquadFabric.createTankSquad(Listener.getGlobalMousePos().clone().addX(400), 2, 200, 1);
-        }
-        if (ev.isReleased("newPersonSquad")) {
-            SquadFabric.createHumanSquad(Listener.getGlobalMousePos().clone(), 10, 200, 0);
-        }
-        if (ev.isReleased("newPersonSquadEnemy")) {
-            SquadFabric.createHumanSquad(Listener.getGlobalMousePos().clone(), 10, 200, 1);
+        {
+            if (ev.isReleased("newTankSquad")) {
+                SquadFabric.createTankSquad(mousePos, 2, 200, 0);
+            }
+            if (ev.isReleased("newTankSquadEnemy")) {
+                SquadFabric.createTankSquad(mousePos.addX(400), 2, 200, 1);
+            }
+            if (ev.isReleased("newPersonSquad")) {
+                SquadFabric.createHumanSquad(mousePos, 10, 200, 0);
+            }
+            if (ev.isReleased("newPersonSquadEnemy")) {
+                SquadFabric.createHumanSquad(mousePos, 10, 200, 1);
+            }
         }
 
         bezierControl.bezierCurve(e);
 
-        if (e.isReleased(keys.get("pause"))) UpdateService.get().pause();
-        if (e.isReleased(keys.get("screenshot"))) GameDrawService.takeScreenshot();
+        if (ev.isReleased("pause")) updateService.pause();
+        if (ev.isReleased("screenshot")) gameDrawService.takeScreenshot();
 
-        if (e.isReleased(keys.get("v"))) {
+        if (ev.isReleased("v")) {
 //            Генерация анимации взрыва
             if (temp < 5) temp++;
             if (temp == 5) temp = 1;
-            new Animation(Listener.getGlobalMousePos().clone(), "exp_0" + temp, false)
+            new Animation(mousePos, "exp_0" + temp, false)
                     .enableUpdateDraw();
 //            new Animation(Listener.getGlobalMousePos().clone(), "exp_01", false);
         }
-        if (e.isReleased(keys.get("alt"))) alt = !alt;
+        if (ev.isReleased("alt")) alt = !alt;
 
-        if (e.isClicked(keys.get("WHEEL_MOVE_UP")))   GameDrawService.getCamera().upScale();
-        if (e.isClicked(keys.get("WHEEL_MOVE_DOWN"))) GameDrawService.getCamera().downScale();
+        {
+            Camera camera = gameDrawService.getCamera();
+            if (e.isClicked(keys.get("WHEEL_MOVE_UP")))   camera.upScale();
+            if (e.isClicked(keys.get("WHEEL_MOVE_DOWN"))) camera.downScale();
+
+            if (e.isPressed()) {
+                if (e.isKeyCode(KeyEvent.VK_W)) camera.moveUp(true);
+                if (e.isKeyCode(KeyEvent.VK_S)) camera.moveDown(true);
+                if (e.isKeyCode(KeyEvent.VK_A)) camera.moveLeft(true);
+                if (e.isKeyCode(KeyEvent.VK_D)) camera.moveRight(true);
+            } else if (e.isReleased()) {
+                if (e.isKeyCode(KeyEvent.VK_W)) camera.moveUp(false);
+                if (e.isKeyCode(KeyEvent.VK_S)) camera.moveDown(false);
+                if (e.isKeyCode(KeyEvent.VK_A)) camera.moveLeft(false);
+                if (e.isKeyCode(KeyEvent.VK_D)) camera.moveRight(false);
+
+                if (e.isKeyCode(KeyEvent.VK_ALT)) {
+                    if (e.isKeyCode(MouseKeyCode.RIGHT_MOUSE_BUTTON)) camera.moveTo(mousePos);
+                }
+            }
+        }
+
     }
     //[["Key_Y"], ["Key_Ctrl", "Key_Y"], ["Key_Alt", "Key_Y"]]
     @FunctionalInterface

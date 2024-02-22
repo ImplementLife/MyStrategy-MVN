@@ -3,6 +3,7 @@ package game.myStrategy.game.unit.button;
 import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.menu.FrameController;
@@ -98,7 +99,7 @@ public abstract class Button extends GameObject {
 
     /*=======================================*/
     @Override
-    public void update() {
+    public void update(DT dt) {
         if (updateState) updateState();
     }
 }

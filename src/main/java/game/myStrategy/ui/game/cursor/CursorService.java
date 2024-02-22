@@ -1,10 +1,9 @@
 package game.myStrategy.ui.game.cursor;
 
-import game.myStrategy.game.context.InContext;
 import game.myStrategy.ui.game.gamePanel.GamePanel;
 
 @Deprecated(since = "bad implement")
-public class CursorService extends InContext {
+public class CursorService {
     //region Singleton block
     private static CursorService instance;
     public static CursorService get() {

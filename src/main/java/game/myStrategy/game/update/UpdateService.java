@@ -1,30 +1,31 @@
 package game.myStrategy.game.update;
 
-import game.myStrategy.game.context.InContext;
 import game.myStrategy.game.objects.GameObject;
-import game.myStrategy.lib.CallManager;
+import game.myStrategy.lib.noConcurrent.NoConcurrentList;
 import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.lib.threads.bt.WhileThreadBT;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public final class UpdateService extends InContext {
-    //region Singleton
-    private static UpdateService instance;
-    public static UpdateService get() {
-        if (instance == null) instance = new UpdateService();
-        return instance;
-    }
-    private UpdateService() {
-        thread = new WhileThreadBT(() -> callManager.iterate(GameObject::update), "Поток обновления объектов игры");
-    }
-    //endregion
-
-    public final static DT dt = get().thread.getDt();
+@Component
+@Scope("singleton")
+public final class UpdateService {
+    private final NoConcurrentList<Update> obj = new NoConcurrentList<>();
     private final WhileThreadBT thread;
+    private DT dt;
+
+    private UpdateService() {
+        thread = new WhileThreadBT(() -> obj.forEach(o -> {
+            if (o.isCanUpdate()) {
+                o.update(dt);
+            }
+        }), "Потік оновлення об'єктів гри");
+        dt = thread.getDt();
+    }
 
     public void start() {
         thread.start();
     }
-
     public void pause() {
         if (thread.isPause()) thread.play();
         else thread.pause();
@@ -34,14 +35,11 @@ public final class UpdateService extends InContext {
         return thread.getEPS();
     }
 
-    //------------------------
-    private final CallManager<GameObject> callManager = new CallManager<>();
-
-    public CallManager.Call<GameObject> get(GameObject gameObject) {
-        return callManager.get(gameObject);
+    public DT getDt() {
+        return dt;
     }
 
-    interface Updating {
-        void update(DT dt);
+    public void delete(GameObject gameObject) {
+        obj.remove(gameObject);
     }
 }

@@ -2,7 +2,7 @@ package game.myStrategy.game.unit.button;
 
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 
 import java.awt.*;
 
@@ -50,9 +50,9 @@ public class RectButton extends Button {
 
     @Override
     protected void updateState() {
-        if (state != ButtonState.PRESSED && Listener.getGlobalMousePos().inRect(pos, pos.clone().add(size))){
+        if (state != ButtonState.PRESSED && MouseMotionListener.getGlobalMousePos().inRect(pos, pos.clone().add(size))){
             state = ButtonState.FOCUSED;
-        } else if (state != ButtonState.PRESSED && !Listener.getGlobalMousePos().inRect(pos, pos.clone().add(size))) {
+        } else if (state != ButtonState.PRESSED && !MouseMotionListener.getGlobalMousePos().inRect(pos, pos.clone().add(size))) {
             state = ButtonState.ACTIVE;
         }
     }

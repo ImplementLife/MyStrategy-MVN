@@ -1,5 +1,6 @@
 package game.myStrategy.lib.draw.drawer;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.draw.GameDrawService;
 import game.myStrategy.game.draw.camera.Camera;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
@@ -14,16 +15,16 @@ import java.awt.image.BufferedImage;
 public final class DrawerCamera implements Drawer {
     //==========     Static     =============//
     public static boolean inCamera(Vec2D pos, double size) {
-        Camera camera = GameDrawService.getCamera();
+        Camera camera = Boot.getBean(GameDrawService.class).getCamera();
         if (pos.getX() < camera.firstPos.getX() - size || pos.getY() < camera.firstPos.getY() - size) return false;
         else return (pos.getX() < camera.endPos.getX() + size) && (pos.getY() < camera.endPos.getY() + size);
     }
 
     public static Vec2D posOnCamera(Vec2D pos) {
-        return Vec2D.sub(pos, GameDrawService.getCamera().firstPos);
+        return Vec2D.sub(pos, Boot.getBean(GameDrawService.class).getCamera().firstPos);
     }
     public static Vec2D posCamera() {
-        return GameDrawService.getCamera().firstPos;
+        return Boot.getBean(GameDrawService.class).getCamera().firstPos;
     }
 
     private static boolean rectInCamera(Vec2D posStart, Vec2D size) {

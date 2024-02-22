@@ -4,6 +4,7 @@ import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class RailWay extends GameObject {
     }
 
     @Override
-    public void update() {
+    public void update(DT dt) {
 
     }
     @Override

@@ -7,6 +7,7 @@ import game.myStrategy.game.update.move.Mover;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.game.gamePanel.control.Control;
 
 import java.awt.*;
@@ -81,9 +82,9 @@ public class Human extends Unit {
     //   Obj Overrides
 
     @Override
-    public void update() {
-        super.update();
-        mover.update();
+    public void update(DT dt) {
+        super.update(dt);
+        mover.update(dt);
     }
 
     @Override

@@ -6,8 +6,10 @@ import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.lib.math.bezier.BezierCurveSingle;
 import game.myStrategy.lib.math.bezier.BezierMovePoint;
 import game.myStrategy.lib.math.bezier.GlobalNode;
-import game.myStrategy.ui.game.gamePanel.events.Event;
+import game.myStrategy.lib.threads.bt.DT;
+import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 
 import java.awt.*;
 import java.util.Map;
@@ -43,7 +45,7 @@ public class BezierControl {
         }
     }
     private static class TempLineDraw extends GameObject {
-        Vec2D mouse = Listener.getGlobalMousePos(), mirror, oldEnd;
+        Vec2D mouse = MouseMotionListener.getGlobalMousePos(), mirror, oldEnd;
         final float drawRadius = 10;
         public TempLineDraw() {
             super(DECAL);
@@ -54,7 +56,7 @@ public class BezierControl {
         }
 
         @Override
-        public void update() {
+        public void update(DT dt) {
             if (oldEnd != null) {
                 mirror = Vec2D.newAngVec(oldEnd, Vec2D.getLength(oldEnd, mouse)-drawRadius, Vec2D.getAngle(oldEnd, mouse)-Math.PI);
             }
@@ -70,7 +72,7 @@ public class BezierControl {
         }
     }
 
-    void bezierCurve(Event e) {
+    void bezierCurve(UIEvent e) {
         if (e.isReleased(keys.get("newCurveEnable"))) {
             createBezierCurveEnable = !createBezierCurveEnable;
             if (createBezierCurveEnable) {
@@ -90,17 +92,17 @@ public class BezierControl {
         }
         if (createBezierCurveEnable && e.isClicked(keys.get("newCurve"))) {
             if (s == null) {
-                s = new TempVecDraw(Listener.getGlobalMousePos().clone(), "s");
+                s = new TempVecDraw(MouseMotionListener.getGlobalMousePos().clone(), "s");
                 startNode = globalNodeInSelect;
                 return;
             }
 
             if (m == null) {
-                m = new TempVecDraw(Listener.getGlobalMousePos().clone(), "m");
+                m = new TempVecDraw(MouseMotionListener.getGlobalMousePos().clone(), "m");
                 return;
             }
             if (this.e == null) {
-                this.e = new TempVecDraw(Listener.getGlobalMousePos().clone(), "e");
+                this.e = new TempVecDraw(MouseMotionListener.getGlobalMousePos().clone(), "e");
                 globalCursor.setOldEnd(this.e.v);
                 endNode = globalNodeInSelect;
             }

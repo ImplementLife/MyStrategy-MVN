@@ -3,10 +3,9 @@ package game.myStrategy.game.unit.human;
 import game.myStrategy.game.update.move.SpeedController;
 import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import java.awt.*;
-
-import static game.myStrategy.game.update.UpdateService.dt;
 
 public class MoverHuman extends SpeedController {
     private final Vec2D posNow;
@@ -35,7 +34,7 @@ public class MoverHuman extends SpeedController {
         }
     }
 
-    public void update() {
+    public void update(DT dt) {
         if (move) {
             course.setXY(posEnd).sub(posNow);
             if (course.getLength() > distToBrake) {
@@ -44,7 +43,7 @@ public class MoverHuman extends SpeedController {
                 move = false;
                 posNow.setXY(posEnd);
             }
-            super.updateSpeed();
+            super.updateSpeed(dt);
             posNow.addAngVec(dt.scalar(getSpeed()), course.getAngle());
         }
     }

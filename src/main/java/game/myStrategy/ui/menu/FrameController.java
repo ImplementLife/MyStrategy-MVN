@@ -1,5 +1,8 @@
 package game.myStrategy.ui.menu;
 
+import game.myStrategy.Boot;
+import game.myStrategy.game.resource.ResourceService;
+import game.myStrategy.lib.events.EventBus;
 import game.myStrategy.ui.game.gamePanel.control.Control;
 import game.myStrategy.game.draw.GameDrawService;
 import game.myStrategy.game.update.UpdateService;
@@ -7,58 +10,50 @@ import game.myStrategy.ui.Frame;
 import game.myStrategy.ui.game.cursor.CursorService;
 import game.myStrategy.game.GameService;
 import game.myStrategy.ui.game.gamePanel.GamePanel;
-import game.myStrategy.ui.game.gamePanel.events.Event;
+import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.menu.mainMenu.MainMenu;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.swing.*;
 import java.awt.*;
 import java.util.function.Consumer;
 
 import static game.myStrategy.game.context.Context.context;
 
+@Component
+@Scope("singleton")
 public class FrameController {
-    //region Singleton
-
-    private static FrameController instance;
     public static FrameController get() {
-        if (instance == null) instance = new FrameController();
-        return instance;
+        return Boot.getBean(FrameController.class);
     }
-    private FrameController() {
-        frame = new Frame();
-        ImageIcon icon = new ImageIcon("resource/images/com/IL.png");
-        if (icon.getImageLoadStatus() == MediaTracker.COMPLETE) {
-            frame.setIconImage(icon.getImage());
-        }
-        /*JFrame.setDefaultLookAndFeelDecorated(false);
-        frame.addFocusListener(new FocusListener() {
-            private final KeyEventDispatcher altDisabler = new KeyEventDispatcher() {
-                @Override
-                public boolean dispatchKeyEvent(KeyEvent e) {
-                    return e.getKeyCode() == 18;
-                }
-            };
+    @Autowired
+    private UpdateService updateService;
+    @Autowired
+    private EventBus eventBus;
+    @Autowired
+    private Control control;
+    @Autowired
+    private GameService gameService;
+    @Autowired
+    private ResourceService resourceService;
+    @Autowired
+    private GameDrawService gameDrawService;
 
-            @Override
-            public void focusGained(FocusEvent e) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(altDisabler);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(altDisabler);
-            }
-        });*/
-    }
-
-    //endregion
-
-    private final Frame frame;
+    private Frame frame;
     private GamePanel gamePanel;
 
-    public UIEventListener registerListener(Consumer<Event> execute) {
-        return gamePanel.getContainer().getEventSander().registerListener(execute);
+    @PostConstruct
+    private void postConstruct() {
+        frame = new Frame();
+        frame.setIconImage(resourceService.getImage("resource/images/com/IL.png"));
+    }
+
+    public UIEventListener registerListener(Consumer<UIEvent> execute) {
+        return gamePanel.getEventSander().registerListener(execute);
     }
 
     public void setPanel(JPanel panel) {
@@ -66,7 +61,7 @@ public class FrameController {
     }
 
     public void setMainMenu() {
-        MainMenu mainMenu = new MainMenu();
+        MainMenu mainMenu = new MainMenu(this);
         frame.setPanel(mainMenu.getRoot());
     }
 
@@ -76,14 +71,12 @@ public class FrameController {
         CursorService.get().setPanel(gamePanel);
         //==========================================//
 
-        GameService gameService = GameService.get();
         gameService.createMap();
-        context().setUpdateService(UpdateService.get());
-        GameDrawService.start(gamePanel);
+        gameDrawService.start(gamePanel);
         gamePanel.setFocus();
         gameService.addUnit();
-        context().getUpdateService().start();
-        Control.get().enabled();
+        updateService.start();
+        control.enabled();
     }
 
     public Dimension getFrameSize() {

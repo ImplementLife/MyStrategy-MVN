@@ -3,7 +3,7 @@ package game.myStrategy.game.unit.squads;
 import game.myStrategy.game.unit.button.Button;
 import game.myStrategy.game.unit.button.RectButton;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 
 public class SquadControlPanel {
     private final Squad squad;
@@ -12,7 +12,7 @@ public class SquadControlPanel {
 
     public SquadControlPanel(Squad squad) {
         this.squad = squad;
-        button = new RectButton(squad.mover.centerPos, () -> squad.moveTo(Listener.getGlobalMousePos().clone()));
+        button = new RectButton(squad.mover.centerPos, () -> squad.moveTo(MouseMotionListener.getGlobalMousePos().clone()));
         //button = new RatioButton(centerPos, 20, () -> moveTo(Listener.getGlobalMousePos()));
         button.enableUpdateDraw();
     }

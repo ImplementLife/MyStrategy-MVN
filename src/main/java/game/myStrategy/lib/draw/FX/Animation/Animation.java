@@ -5,6 +5,7 @@ import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.game.resource.Resource;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.lib.timer.Timer;
 
 import java.awt.*;
@@ -32,7 +33,7 @@ public class Animation extends GameObject {
         this(pos, name, 50, loop);
     }
 
-    public void update() {
+    public void update(DT dt) {
         if (images != null) {
             if (currentImage + 1 >= images.length) {
                 if (loop) currentImage = 0;

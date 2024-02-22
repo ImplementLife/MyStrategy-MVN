@@ -2,7 +2,7 @@ package game.myStrategy.game.unit.button;
 
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 
 import java.awt.*;
 
@@ -40,9 +40,9 @@ public class RatioButton extends Button {
 
     @Override
     protected void updateState() {
-        if (state != ButtonState.PRESSED && Listener.posToMouse(pos).getLength() < radius){
+        if (state != ButtonState.PRESSED && MouseMotionListener.posToMouse(pos).getLength() < radius){
             state = ButtonState.FOCUSED;
-        } else if (state != ButtonState.PRESSED && Listener.posToMouse(pos).getLength() > radius) {
+        } else if (state != ButtonState.PRESSED && MouseMotionListener.posToMouse(pos).getLength() > radius) {
             state = ButtonState.ACTIVE;
         }
     }

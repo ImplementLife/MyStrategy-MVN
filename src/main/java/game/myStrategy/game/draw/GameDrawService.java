@@ -8,10 +8,15 @@ import game.myStrategy.lib.draw.drawer.DrawerAWT;
 import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.draw.drawer.settings.SettingsDrawer;
 import game.myStrategy.lib.draw.drawer.settings.SettingsG;
+import game.myStrategy.lib.events.EventBus;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.lib.timer.Timer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,19 +27,21 @@ import java.time.format.DateTimeFormatter;
 
 import static game.myStrategy.game.context.Context.context;
 
+@Component
+@Scope("singleton")
 public final class GameDrawService {
+    @Autowired
+    private EventBus eventBus;
+    @Autowired
+    private UpdateService updateService;
+
     //region Static
-    private static GameDrawService gameDrawService;
-    private GameDrawService() {}
-    public static void start(JPanel panel) {
-        if (gameDrawService == null) {
-            gameDrawService = new GameDrawService();
-            gameDrawService.init(panel);
-        }
+    public void start(JPanel panel) {
+        init(panel);
     }
 
-    public static Camera getCamera() {
-        return gameDrawService.camera;
+    public Camera getCamera() {
+        return camera;
     }
     //endregion
 
@@ -113,13 +120,11 @@ public final class GameDrawService {
         finalDrawerImpl.drawImage(new Vec2D(), painterObj.getImage());
         this.screenshot();
 
-        camera.getCurrentScale();
-
         if (timer.startF()) {
             devInfoData = new String[] {
                     "UPS thread Map = " + threadManager.drawMap.getEPS(),
                     "UPS thread Obj = " + threadManager.drawObj.getEPS(),
-                    "UPS thread Update = " + UpdateService.get().getEPS(),
+                    "UPS thread Update = " + updateService.getEPS(),
                     "",
                     "camera.scale = " + camera.getCurrentScale(),
                     "camera.firstPos = " + camera.getFirstPos(),
@@ -140,8 +145,8 @@ public final class GameDrawService {
     /*=======================================================*/
     private static String devInfoData[] = new String[0];
 
-    private static boolean takeScreenshot;
-    public static void takeScreenshot() {
+    private boolean takeScreenshot;
+    public void takeScreenshot() {
         takeScreenshot = true;
     }
     private void screenshot() {

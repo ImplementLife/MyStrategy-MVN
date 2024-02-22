@@ -1,6 +1,6 @@
 package game.myStrategy.ui.game.gamePanel.listener;
 
-import game.myStrategy.ui.game.gamePanel.events.Event;
+import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventSander;
 
 import java.awt.event.KeyEvent;
@@ -19,11 +19,11 @@ public class KeyListener extends Listener implements java.awt.event.KeyListener 
 
     @Override
     public void keyPressed(KeyEvent e) {
-        addEvent(new Event(PRESSED, e.getKeyCode()));
+        addEvent(new UIEvent(PRESSED, e.getKeyCode()));
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        addEvent(new Event(RELEASED, e.getKeyCode()));
+        addEvent(new UIEvent(RELEASED, e.getKeyCode()));
     }
 }

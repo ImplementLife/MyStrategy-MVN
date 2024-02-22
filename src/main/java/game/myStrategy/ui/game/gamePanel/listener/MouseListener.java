@@ -1,6 +1,6 @@
 package game.myStrategy.ui.game.gamePanel.listener;
 
-import game.myStrategy.ui.game.gamePanel.events.Event;
+import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventSander;
 
 import java.awt.event.MouseEvent;
@@ -16,23 +16,23 @@ public class MouseListener extends Listener implements java.awt.event.MouseListe
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (isLeftMouseButton(e)) addEvent(new Event(CLICKED, LEFT_MOUSE_BUTTON));
-        if (isRightMouseButton(e)) addEvent(new Event(CLICKED, RIGHT_MOUSE_BUTTON));
-        if (isMiddleMouseButton(e)) addEvent(new Event(CLICKED, WHEEL_MOUSE_BUTTON));
+        if (isLeftMouseButton(e)) addEvent(new UIEvent(CLICKED, LEFT_MOUSE_BUTTON));
+        if (isRightMouseButton(e)) addEvent(new UIEvent(CLICKED, RIGHT_MOUSE_BUTTON));
+        if (isMiddleMouseButton(e)) addEvent(new UIEvent(CLICKED, WHEEL_MOUSE_BUTTON));
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (isLeftMouseButton(e)) addEvent(new Event(PRESSED, LEFT_MOUSE_BUTTON));
-        if (isRightMouseButton(e)) addEvent(new Event(PRESSED, RIGHT_MOUSE_BUTTON));
-        if (isMiddleMouseButton(e)) addEvent(new Event(PRESSED, WHEEL_MOUSE_BUTTON));
+        if (isLeftMouseButton(e)) addEvent(new UIEvent(PRESSED, LEFT_MOUSE_BUTTON));
+        if (isRightMouseButton(e)) addEvent(new UIEvent(PRESSED, RIGHT_MOUSE_BUTTON));
+        if (isMiddleMouseButton(e)) addEvent(new UIEvent(PRESSED, WHEEL_MOUSE_BUTTON));
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (isLeftMouseButton(e)) addEvent(new Event(RELEASED, LEFT_MOUSE_BUTTON));
-        if (isRightMouseButton(e)) addEvent(new Event(RELEASED, RIGHT_MOUSE_BUTTON));
-        if (isMiddleMouseButton(e)) addEvent(new Event(RELEASED, WHEEL_MOUSE_BUTTON));
+        if (isLeftMouseButton(e)) addEvent(new UIEvent(RELEASED, LEFT_MOUSE_BUTTON));
+        if (isRightMouseButton(e)) addEvent(new UIEvent(RELEASED, RIGHT_MOUSE_BUTTON));
+        if (isMiddleMouseButton(e)) addEvent(new UIEvent(RELEASED, WHEEL_MOUSE_BUTTON));
     }
 
     /*============================================================*/

@@ -1,20 +1,14 @@
 package game.myStrategy.game;
 
-import game.myStrategy.game.context.InContext;
 import game.myStrategy.game.map.MapGenerator;
-import game.myStrategy.game.unit.vehicle.train.RailWayBezier;
-import game.myStrategy.lib.math.bezier.BezierCurveSingle;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.math.bezier.BezierCurveSingle;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-public final class GameService extends InContext {
-    //region Singleton
-    private static GameService instance;
-    public static GameService get() {
-        if (instance == null) instance = new GameService();
-        return instance;
-    }
-    private GameService() {}
-    //endregion
+@Component
+@Scope("singleton")
+public final class GameService {
 
     public void createMap() {
         MapGenerator.newMap(new Vec2D(100,100), 1);

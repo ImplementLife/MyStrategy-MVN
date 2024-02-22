@@ -6,12 +6,11 @@ import game.myStrategy.lib.draw.FX.Animation.Animation;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-
-import static game.myStrategy.game.update.UpdateService.dt;
 
 public class Bullet extends GameObject {
     //==========     Static     =============//
@@ -69,7 +68,7 @@ public class Bullet extends GameObject {
 
     //=======================================//
     @Override
-    public void update() {
+    public void update(DT dt) {
         float dist = (float) dt.scalar(speed);
         posNow.addAngVec(dist, angle.getValue());
         if (Vec2D.sub(posNow, posEnd).getLength() <= dist) {

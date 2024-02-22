@@ -1,6 +1,6 @@
 package game.myStrategy.ui.game.gamePanel.listener;
 
-import game.myStrategy.ui.game.gamePanel.events.Event;
+import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.State;
 import game.myStrategy.ui.game.gamePanel.events.UIEventSander;
@@ -14,7 +14,7 @@ public class MouseWheelListener extends Listener implements java.awt.event.Mouse
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (e.getWheelRotation() < 0) addEvent(new Event(State.CLICKED, MouseKeyCode.WHEEL_MOVE_UP));
-        else addEvent(new Event(State.CLICKED, MouseKeyCode.WHEEL_MOVE_DOWN));
+        if (e.getWheelRotation() < 0) addEvent(new UIEvent(State.CLICKED, MouseKeyCode.WHEEL_MOVE_UP));
+        else addEvent(new UIEvent(State.CLICKED, MouseKeyCode.WHEEL_MOVE_DOWN));
     }
 }

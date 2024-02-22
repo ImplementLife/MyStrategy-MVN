@@ -5,6 +5,7 @@ import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.fire.FireManager;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import java.util.HashSet;
 
@@ -65,7 +66,7 @@ public abstract class Unit extends GameObject {
     }
 
     @Override
-    public void update() {
+    public void update(DT dt) {
         if (fireManager != null) fireManager.update();
     }
 

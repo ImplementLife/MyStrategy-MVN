@@ -1,12 +1,15 @@
 package game.myStrategy.game.objects;
 
-import game.myStrategy.game.context.InContext;
 import game.myStrategy.game.objects.managers.GameObjectType;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-public class IdService extends InContext {
+@Component
+@Scope("singleton")
+public class IdService {
     private static class List extends ArrayList<Id> {
         private int countNum = 0;
         private int getUnitNum() { return countNum++; }

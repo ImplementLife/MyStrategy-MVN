@@ -6,9 +6,8 @@ import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.lists.Node;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.gamePanel.control.BezierControl;
 import game.myStrategy.ui.game.gamePanel.control.Control;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 
 import java.awt.*;
 import java.util.Collection;
@@ -28,7 +27,7 @@ public class GlobalNode extends Node<Vec2D> {
         GameObject gameObject = new GameObject(GameObjectType.DEV) {
             @Override
             public void draw(Drawer drawer) {
-                Vec2D globalMousePos = Listener.getGlobalMousePos();
+                Vec2D globalMousePos = MouseMotionListener.getGlobalMousePos();
                 Vec2D item = getItem();
                 double length = Vec2D.getLength(globalMousePos, item);
                 if (length < 50) {

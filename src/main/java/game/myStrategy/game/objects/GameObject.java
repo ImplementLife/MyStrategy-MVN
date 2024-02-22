@@ -2,16 +2,21 @@ package game.myStrategy.game.objects;
 
 import game.myStrategy.game.context.Context;
 import game.myStrategy.game.objects.managers.GameObjectType;
+import game.myStrategy.game.update.Update;
+import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.CallManager.Call;
 import game.myStrategy.lib.draw.drawer.Drawer;
+import game.myStrategy.lib.threads.bt.DT;
 
-public class GameObject implements Comparable<Object> {
+public class GameObject implements Comparable<Object>, Update {
     //region Fields
     private final Id id;
     private final GameObjectType type;
     private boolean deleted;
+    private boolean canUpdate;
+    private UpdateService updateService;
+
     protected Context context;
-    private Call<GameObject> update;
     private Call<GameObject> draw;
     //endregion
 
@@ -19,10 +24,8 @@ public class GameObject implements Comparable<Object> {
     public GameObject(GameObjectType type) {
         this.context = Context.context();
         this.type = type;
-        this.id = this.context.getIdService().getId(type);
-
-        this.update = this.context.getUpdateService().get(this);
-        this.draw = this.context.getDrawService().get(this);
+        this.id = context.getIdService().getId(type);
+        this.draw = context.getDrawService().get(this);
     }
     //endregion
 
@@ -31,8 +34,8 @@ public class GameObject implements Comparable<Object> {
     }
 
     public void delete() {
+        updateService.delete(this);
         draw.remove();
-        update.remove();
         deleted = true;
     }
 
@@ -58,16 +61,23 @@ public class GameObject implements Comparable<Object> {
     }
 
     public final void enableUpdate() {
-        update.setCanCall(true);
+        canUpdate = true;
     }
     public final void disableUpdate() {
-        update.setCanCall(false);
+        canUpdate = false;
     }
     //endregion
 
     //region For Wail
-    public void update() {}
     public void draw(Drawer drawer) {}
+
+    @Override
+    public void update(DT dt) {}
+
+    @Override
+    public boolean isCanUpdate() {
+        return false;
+    }
     //endregion
 
     //region Object override

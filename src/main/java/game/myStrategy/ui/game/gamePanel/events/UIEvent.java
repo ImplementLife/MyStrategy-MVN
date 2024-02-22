@@ -1,10 +1,12 @@
 package game.myStrategy.ui.game.gamePanel.events;
 
+import game.myStrategy.lib.events.Event;
+
 import java.awt.event.KeyEvent;
 
 import static game.myStrategy.ui.game.gamePanel.events.State.*;
 
-public class Event {
+public class UIEvent extends Event {
     //region Fields
 
     private final State state;
@@ -14,12 +16,12 @@ public class Event {
 
     //region Constructors
 
-    public Event(State state, int keyCode) {
+    public UIEvent(State state, int keyCode) {
         this.state = state;
         this.keyCode = keyCode;
     }
 
-    public Event(State state, MouseKeyCode keyCode) {
+    public UIEvent(State state, MouseKeyCode keyCode) {
         this.state = state;
         this.keyCode = keyCode.getCode();
     }

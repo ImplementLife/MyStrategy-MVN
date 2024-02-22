@@ -1,25 +1,18 @@
 package game.myStrategy.game.resource;
 
-import game.myStrategy.game.context.InContext;
 import game.myStrategy.game.resource.model.Conf;
 import game.myStrategy.game.resource.model.Gif;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ResourceService extends InContext {
-    //region Singleton
-    private static ResourceService instance;
-    public static ResourceService get() {
-        if (instance == null) instance = new ResourceService();
-        return instance;
-    }
-    private ResourceService() {}
-    //endregion
-
-    //region Fields
-
+@Component
+@Scope("singleton")
+public class ResourceService {
     private final FileLoader fileLoader = new FileLoader();
     private final ConfigWriteReader configWriteReader = new ConfigWriteReader();
     private final ImageLoader imageLoader = new ImageLoader();
@@ -29,8 +22,6 @@ public class ResourceService extends InContext {
     private final Resource<Image> images = new Resource<>();
     private final Resource<Gif> gifs = new Resource<>();
     private final Resource<Conf> configs = new Resource<>();
-
-    //endregion
 
     //region Load
 
@@ -49,11 +40,9 @@ public class ResourceService extends InContext {
     private void loadGifs() {
 
     }
-
     private void loadAudio() {
 
     }
-
     private void loadConf() {
 
     }

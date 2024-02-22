@@ -1,24 +1,29 @@
 package game.myStrategy;
 
-import game.myStrategy.game.context.Context;
-import game.myStrategy.game.diplomacy.DiplomacyService;
-import game.myStrategy.game.objects.IdService;
 import game.myStrategy.game.resource.ResourceService;
 import game.myStrategy.ui.menu.FrameController;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
-public final class Boot {
-    public static void main(String[] args) {
-        firstInitContext();
-        FrameController.get().setMainMenu();
+@Configuration
+@ComponentScan
+@PropertySource("classpath:application.properties")
+public class Boot {
+    private static ApplicationContext context;
+    public static ApplicationContext getContext() {
+        return context;
+    }
+    public static <T> T getBean(Class<T> aClass) throws BeansException {
+        return context.getBean(aClass);
     }
 
-    private static void firstInitContext() {
-        Context context = Context.context();
-        context.setIdService(new IdService());
-        context.setDiplomacyService(new DiplomacyService());
-
-        ResourceService resourceService = ResourceService.get();
-        resourceService.load();
-        context.setResourceService(resourceService);
+    public static void main(String[] args) {
+        context = new AnnotationConfigApplicationContext(Boot.class);
+        getBean(ResourceService.class).load();
+        getBean(FrameController.class).setMainMenu();
     }
 }

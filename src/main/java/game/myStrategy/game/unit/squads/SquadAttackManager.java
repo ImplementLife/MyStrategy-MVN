@@ -1,11 +1,12 @@
 package game.myStrategy.game.unit.squads;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.cursor.CursorService;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 import game.myStrategy.ui.menu.FrameController;
 
 import static game.myStrategy.game.unit.Unit.units;
@@ -37,7 +38,7 @@ public class SquadAttackManager {
             boolean b = false;
             squad.controlPanel.foundCanUpdate(false);
             for (Unit u : units) {
-                if (Vec2D.getLength(u.getPos(), Listener.getGlobalMousePos()) < u.getSize()) {
+                if (Vec2D.getLength(u.getPos(), MouseMotionListener.getGlobalMousePos()) < u.getSize()) {
                     if (u.isEnemy()) {
                         b = true;
                         attackedUnit = u;
@@ -56,7 +57,7 @@ public class SquadAttackManager {
     }
 
     private Unit attackedUnit;
-    private final UIEventListener listener = FrameController.get().registerListener(e -> {
+    private final UIEventListener listener = Boot.getBean(FrameController.class).registerListener(e -> {
         if (e.isReleased(MouseKeyCode.LEFT_MOUSE_BUTTON)) {
             if (attackedUnit != null)attack(attackedUnit);
         }

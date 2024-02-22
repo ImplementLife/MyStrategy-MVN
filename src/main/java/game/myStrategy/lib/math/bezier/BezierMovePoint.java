@@ -6,6 +6,7 @@ import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.lists.Node;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.game.gamePanel.GamePanel;
 
 import java.awt.*;
@@ -34,7 +35,7 @@ public class BezierMovePoint extends GameObject {
 
     final int skipTick = 5;
     int skipTickCounter = 0;
-    public void update() {
+    public void update(DT dt) {
         if (skipTickCounter < skipTick) {
             skipTickCounter++;
             return;
@@ -62,8 +63,8 @@ public class BezierMovePoint extends GameObject {
     }
 
     //region Old
-    public void updateAlt() {
-        double scalarSpeed = Context.context().getDt().scalar(speed);
+    public void updateAlt(DT dt) {
+        double scalarSpeed = dt.scalar(speed);
         Vec2D dirPosToNextPoint = Vec2D.sub(nextPoint.getItem(), pos);
 
         if (dirPosToNextPoint.getLength() < scalarSpeed) {
@@ -88,9 +89,9 @@ public class BezierMovePoint extends GameObject {
         }
     }
     boolean modeChangeDir = true;
-    public void updateNextGen(double speed) {
+    public void updateNextGen(DT dt, double speed) {
         if (nextPoint == null) return;
-        double scalarSpeed = Context.context().getDt().scalar(speed);
+        double scalarSpeed = dt.scalar(speed);
         boolean forwardDir = scalarSpeed >= 0;
         Vec2D dirPosToNextPoint = Vec2D.sub(nextPoint.getItem(), pos);
 

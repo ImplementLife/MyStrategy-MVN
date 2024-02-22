@@ -4,6 +4,7 @@ import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.lib.draw.drawer.Drawer;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -101,8 +102,8 @@ public class Squad extends Unit {
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(DT dt) {
+        super.update(dt);
         mover.move();
         attackManager.update();
     }

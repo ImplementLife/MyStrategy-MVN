@@ -21,11 +21,11 @@ public class MainMenu {
     private JButton workshop;
     private JButton gallery;
 
-    public MainMenu() {
-        start.addActionListener(e -> FrameController.get().startNewGame());
+    public MainMenu(FrameController fc) {
+        start.addActionListener(e -> fc.startNewGame());
         SettingsMenu settingsMenu = SettingsMenu.get();
-        settingsMenu.setCloseAction(() -> FrameController.get().setMainMenu());
-        settings.addActionListener(e -> FrameController.get().setPanel(settingsMenu.getRoot()));
+        settingsMenu.setCloseAction(fc::setMainMenu);
+        settings.addActionListener(e -> fc.setPanel(settingsMenu.getRoot()));
         exit.addActionListener(e -> System.exit(0));
 
         //region Disable tab focusable

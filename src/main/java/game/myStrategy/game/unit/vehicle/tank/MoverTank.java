@@ -5,10 +5,9 @@ import game.myStrategy.game.update.move.SpeedController;
 import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Angle;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 
 import java.awt.*;
-
-import static game.myStrategy.game.update.UpdateService.dt;
 
 public class MoverTank extends SpeedController {
     private final Vec2D posNow;
@@ -29,6 +28,7 @@ public class MoverTank extends SpeedController {
         this.dbt = dbt;
     }
 
+    @Override
     public void moveTo(Vec2D pos) {
         posEnd.setXY(pos);
         course.setXY(posEnd).sub(posNow);
@@ -52,16 +52,17 @@ public class MoverTank extends SpeedController {
         dbt.rotateBody(angleRotate);
     }
 
-    public void update() {
+    @Override
+    public void update(DT dt) {
         if (toBrake) {
             if (stop()) {
                 moveTo(posEnd);
                 toBrake = false;
             }
-            super.updateSpeed();
+            super.updateSpeed(dt);
             posNow.addAngVec(dt.scalar(getSpeed()), dbt.getAngleBody());
         } else if (rotate) {
-            dbt.update();
+            dbt.update(dt);
             rotate = dbt.isBodyRotate();
         } else if (move) {
             course.setXY(posEnd).sub(posNow);
@@ -73,15 +74,17 @@ public class MoverTank extends SpeedController {
                 moveBack = false;
                 posNow.setXY(posEnd);
             }
-            super.updateSpeed();
+            super.updateSpeed(dt);
             posNow.addAngVec(dt.scalar(getSpeed()), dbt.getAngleBody());
         }
     }
 
+    @Override
     public boolean isMove() {
         return move;
     }
 
+    @Override
     public void draw(DrawerCamera drawer) {
         String[] text = {
                 "toBrake = " + toBrake,

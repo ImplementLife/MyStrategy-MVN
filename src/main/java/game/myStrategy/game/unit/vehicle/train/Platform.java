@@ -3,6 +3,7 @@ package game.myStrategy.game.unit.vehicle.train;
 import game.myStrategy.game.objects.GameObject;
 import game.myStrategy.game.objects.managers.GameObjectType;
 import game.myStrategy.lib.draw.drawer.Drawer;
+import game.myStrategy.lib.threads.bt.DT;
 
 public class Platform extends GameObject {
     //==========     Static     =============//
@@ -22,7 +23,7 @@ public class Platform extends GameObject {
     }
 
     @Override
-    public void update() {
+    public void update(DT dt) {
 
     }
 

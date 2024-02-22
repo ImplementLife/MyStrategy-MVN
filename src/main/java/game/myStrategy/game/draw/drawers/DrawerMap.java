@@ -6,7 +6,7 @@ import game.myStrategy.game.map.TypeTile;
 import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.game.resource.ImageLoader;
 import game.myStrategy.lib.math.Vec2D;
-import game.myStrategy.ui.game.gamePanel.listener.Listener;
+import game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -72,7 +72,7 @@ public class DrawerMap {
     }
 
     private void drawSquad(Vec2D pos, Vec2D posInCamera) {
-        Vec2D globalMouse = Listener.getGlobalMousePos().clone();
+        Vec2D globalMouse = MouseMotionListener.getGlobalMousePos().clone();
         if (pos.getX() <= globalMouse.getX() && pos.getX() + sizeTile >= globalMouse.getX()) {
             if (pos.getY() <= globalMouse.getY() && pos.getY() + sizeTile >= globalMouse.getY()) {
                 drawer.drawRect(posInCamera, new Vec2D(sizeTile, sizeTile), Color.BLACK, null, 3);

@@ -1,10 +1,12 @@
 package game.myStrategy.game.update.move.managers;
 
+import game.myStrategy.Boot;
 import game.myStrategy.game.unit.Unit;
 import game.myStrategy.game.update.move.Mover;
 import game.myStrategy.game.update.move.WayPoint;
 import game.myStrategy.lib.draw.drawer.DrawerCamera;
 import game.myStrategy.lib.math.Vec2D;
+import game.myStrategy.lib.threads.bt.DT;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.menu.FrameController;
 
@@ -25,7 +27,7 @@ public class MoveManager implements Mover {
     public MoveManager(Unit unit) {
         this.unit = unit;
         way = new LinkedList<>();
-        UIEventListener = FrameController.get().registerListener(e -> {
+        UIEventListener = Boot.getBean(FrameController.class).registerListener(e -> {
             if (e.isReleased(KeyEvent.VK_SHIFT)) shift = false;
             if (e.isPressed(KeyEvent.VK_SHIFT)) shift = true;
         });
@@ -48,7 +50,7 @@ public class MoveManager implements Mover {
     }
 
     @Override
-    public void update() {
+    public void update(DT dt) {
 //        if (move) {
 //            if (!unit.isMove()) {
 //                WayPoint point = way.poll();
