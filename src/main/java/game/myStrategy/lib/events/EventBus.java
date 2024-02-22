@@ -15,9 +15,9 @@ public class EventBus {
     public void regSender(String name, EventSander<Event> sander) {
         sanders.put(name, sander);
     }
-    public void regListener(String sanderName, Consumer<Event> exe) {
+    public void regListener(String sanderName, Consumer<Event> listener) {
         EventSander<Event> eventSander = sanders.get(sanderName);
-        eventSander.registerListener(exe);
+        eventSander.registerListener(listener);
     }
 
     public void deleteSender(String sanderName) {

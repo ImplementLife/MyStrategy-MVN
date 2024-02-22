@@ -6,11 +6,14 @@ import game.myStrategy.game.draw.camera.Camera;
 import game.myStrategy.game.unit.squads.SquadFabric;
 import game.myStrategy.game.update.UpdateService;
 import game.myStrategy.lib.draw.FX.Animation.Animation;
+import game.myStrategy.lib.events.EventBus;
 import game.myStrategy.lib.math.Vec2D;
 import game.myStrategy.ui.game.gamePanel.events.MouseKeyCode;
 import game.myStrategy.ui.game.gamePanel.events.UIEvent;
 import game.myStrategy.ui.game.gamePanel.events.UIEventListener;
 import game.myStrategy.ui.menu.FrameController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -27,12 +30,16 @@ import static game.myStrategy.ui.game.gamePanel.listener.MouseMotionListener.get
 @Component
 @Scope("singleton")
 public class Control {
+    private static final Logger logger = LogManager.getLogger(Control.class);
+
     @Autowired
     private FrameController frameController;
     @Autowired
     private GameDrawService gameDrawService;
     @Autowired
     private UpdateService updateService;
+    @Autowired
+    private EventBus eventBus;
 
     public static Control get() {
         return Boot.getBean(Control.class);
@@ -40,9 +47,10 @@ public class Control {
 
     @PostConstruct
     private void postConstruct() {
-        UIEventListener = frameController.registerListener(this::update);
+//        eventBus.regListener("", );
+//        UIEventListener = frameController.registerListener(this::update);
         loadConf();
-        bezierControl = new BezierControl(keys);
+//        bezierControl = new BezierControl(keys);
     }
 
     private Map<String, Integer> keys;
@@ -51,9 +59,11 @@ public class Control {
 
     public void enabled() {
         enabled = true;
+        UIEventListener = frameController.registerListener(this::update);
     }
     public void disabled() {
         enabled = false;
+        UIEventListener.remove();
     }
 
     private void loadConf() {
@@ -153,6 +163,14 @@ public class Control {
         }
 
     }
+
+    public BezierControl getBezierControl() {
+        if (bezierControl == null) {
+            bezierControl = new BezierControl(keys);
+        }
+        return bezierControl;
+    }
+
     //[["Key_Y"], ["Key_Ctrl", "Key_Y"], ["Key_Alt", "Key_Y"]]
     @FunctionalInterface
     private interface Condition {

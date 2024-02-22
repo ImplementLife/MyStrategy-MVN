@@ -34,7 +34,7 @@ public class GlobalNode extends Node<Vec2D> {
                     Control.get().bezierControl.globalNodeInSelect = globalNode;
                     drawer.drawCircle(item, 50, Color.magenta, 2);
                 } else {
-                    if (globalNode.equals(Control.get().bezierControl.globalNodeInSelect)) {
+                    if (globalNode.equals(Control.get().getBezierControl().globalNodeInSelect)) {
                         Control.get().bezierControl.globalNodeInSelect = null;
                     }
                 }
